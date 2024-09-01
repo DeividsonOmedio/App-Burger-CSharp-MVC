@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Client : Generics
+    public class Client : Generic
     {
         public string Email { get; set; }
         public string Telefone { get; set; }

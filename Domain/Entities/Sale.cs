@@ -9,11 +9,12 @@ namespace Domain.Entities
     public class Sale : Generic
     {
         public int Id { get; set; }
-        public DateTime DataVenda { get; set; }
-        public string Cliente { get; set; }
-        public Dictionary<string, int> Produtos { get; set; } //dicionario de produtos e quantidade
+        public DateTime SaleDate { get; set; }
+        public string Client { get; set; }
+        public decimal TotalValue { get; set; }
+        public EnumTypePayment TypePayment { get; set; }
+        public EnumStatusSale StatusSale { get; set; }
+        public EnumStatusPayment StatusPayment { get; set; }
 
-        public decimal ValorTotal { get; set; }
-        public string Status { get; set; }
     }
 }

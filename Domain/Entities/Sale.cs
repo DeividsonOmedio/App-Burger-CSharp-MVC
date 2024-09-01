@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Entities.Enums;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
     [Table("Sales")]
     public class Sale
     {
-        [key]
+        [Key]
         public int Id { get; set; }
 
         [Required]
         public DateTime SaleDate { get; set; }
 
-        public id ClientId { get; set; }
-        public Client Client { get; set; }
+        public int ClientId { get; set; }
+        public Client Client { get; set; } = null!;
 
         [Required]
         public decimal TotalValue { get; set; }
@@ -33,7 +31,7 @@ namespace Domain.Entities
         public decimal? Discount { get; set; }
 
         public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        public Employee Employee { get; set; } = null!;
 
     }
 }

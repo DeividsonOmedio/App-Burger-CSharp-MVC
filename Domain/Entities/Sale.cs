@@ -14,7 +14,8 @@ namespace Domain.Entities
         [Required]
         public DateTime SaleDate { get; set; }
 
-        public string Client { get; set; }
+        public id ClientId { get; set; }
+        public Client Client { get; set; }
 
         [Required]
         public decimal TotalValue { get; set; }
@@ -29,6 +30,9 @@ namespace Domain.Entities
         public EnumStatusPayment StatusPayment { get; set; }
 
         public decimal? Discount { get; set; }
+
+        public int EmployeeId { get; set; }
+        public Employee Employee { get; set; }
 
     }
 }

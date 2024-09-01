@@ -8,8 +8,12 @@ namespace Domain.Entities
 {
     public class Product : Generic
     {
-        public List<string> Ingredientes { get; set; }
-        public int? Quantidade { get; set; }
-        public decimal Preco { get; set; }
+        [Required]
+        public Guid Code { get; set; }
+
+        public int? Amount { get; set; }
+
+        [Required]
+        public decimal Price { get; set; }
     }
 }

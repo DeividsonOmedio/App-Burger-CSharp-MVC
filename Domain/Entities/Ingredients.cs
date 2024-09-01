@@ -5,18 +5,14 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class SaleProduct
+    public class Ingredients
     {
-        [key]
-        public int Id { get; set; }
-
-        public int SaleId { get; set; }
-        public Sale Sale { get; set; }
-
         public int ProductId { get; set; }
         public Product Product { get; set; }
 
-        [Required]
-        public int Quantidade { get; set; }
+        public int MaterialId { get; set; }
+        public Material Material { get; set; }
+
+        public decimal Amount { get; set; }
     }
 }

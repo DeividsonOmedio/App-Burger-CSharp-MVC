@@ -9,9 +9,14 @@ namespace Domain.Entities
     public class Client : Generic
     {
         public string Email { get; set; }
-        public string Telefone { get; set; }
-        public DateOnly DataNascimento { get; set; }
-        public DateTime CadastradoEm { get; set; }
-        public decimal Desconto { get; set; }
+
+        [Required]
+        [MaxLength(11)]
+        public string PhoneNumber { get; set; }
+
+        public DateOnly DataBirth { get; set; }
+
+        [Required]
+        public DateTime RegisteredIn { get; set; }
     }
 }

@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Product
+    public class Product : Generic
     {
+        public List<string> Ingredientes { get; set; }
+        public int? Quantidade { get; set; }
+        public decimal Preco { get; set; }
     }
 }

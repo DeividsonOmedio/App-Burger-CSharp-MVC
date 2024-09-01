@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Employee
+    public class Employee : Generic
     {
+        public string User { get; set; }
+        public string Password { get; set; }
+        public string Funcao { get; set; }
     }
 }

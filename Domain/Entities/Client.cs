@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
+    [Table("Clients")]
     public class Client : Generic
     {
         public string Email { get; set; }

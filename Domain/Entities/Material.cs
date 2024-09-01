@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
+    [Table("Materials")]
     public class Material : Generic
     {
         [Required]

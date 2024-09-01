@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
+    [Table("Employees")]
     public class Employee : Generic
     {
         [Required]

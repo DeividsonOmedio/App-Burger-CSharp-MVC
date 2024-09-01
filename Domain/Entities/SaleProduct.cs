@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
+    [Table("SaleProduct")]
     public class SaleProduct
     {
         [key]

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
+    [Table("Ingredients")]
     public class Ingredients
     {
         public int ProductId { get; set; }

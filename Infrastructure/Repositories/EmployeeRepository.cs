@@ -1,45 +1,22 @@
 using Domain.Entities;
 using Domain.Entities.Enums;
 using Domain.Interfaces.InterfacesRepositories;
-using Domain.Notifications;
+using Infrastructure.Configuration;
+using System.Data.Entity;
 
 namespace Infrastructure.Repositories
 {
-    public class EmployeeRepository : IEmployeeRepository
+    public class EmployeeRepository(ContextBase context) : GenericRepository<Employee>(context), IEmployeeRepository
     {
-        public Task<Notifies> Add(Employee obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Notifies> Delete(Employee obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Employee>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<List<Employee>> GetByFunction(EnumFunctionEmployee function)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Employee> GetById(int id)
-        {
-            throw new NotImplementedException();
+            return _dbSet.Where(e => e.Function == function).ToListAsync();
         }
 
         public Task<Employee> GetByUser(string user)
         {
-            throw new NotImplementedException();
+            return _dbSet.FirstOrDefaultAsync(e => e.User == user);
         }
 
-        public Task<Notifies> Update(Employee obj)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

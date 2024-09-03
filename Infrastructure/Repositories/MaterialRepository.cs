@@ -1,49 +1,27 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces.InterfacesRepositories;
-using Domain.Notifications;
+using Infrastructure.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class MaterialRepository : IMaterialRepository
+    public class MaterialRepository(ContextBase context) : GenericRepository<Material>(context), IMaterialRepository
     {
-        public Task<Notifies> Add(Material obj)
+
+        public async Task<IEnumerable<Material>> GetByAmount(decimal amount)
         {
-            throw new NotImplementedException();
+            return await _dbSet.Where(x => x.Amount == amount).ToListAsync();
         }
 
-        public Task<Notifies> Delete(Material obj)
+        public async Task<IEnumerable<Material>> GetByMinimumQuantity(decimal minimumQuantity)
         {
-            throw new NotImplementedException();
+            return await _dbSet.Where(x => x.MinimumQuantity == minimumQuantity).ToListAsync();
         }
 
-        public Task<List<Material>> GetAll()
+        public async Task<IEnumerable<Material>> GetByPurchasePrice(decimal purchasePrice)
         {
-            throw new NotImplementedException();
+            return await _dbSet.Where(x => x.PurchasePrice == purchasePrice).ToListAsync();
         }
 
-        public Task<IEnumerable<Material>> GetByAmount(decimal amount)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Material> GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Material>> GetByMinimumQuantity(decimal minimumQuantity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Material>> GetByPurchasePrice(decimal purchasePrice)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Notifies> Update(Material obj)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

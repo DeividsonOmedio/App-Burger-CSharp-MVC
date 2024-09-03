@@ -1,69 +1,65 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Domain.Interfaces.InterfacesRepositories;
+using Domain.Notifications;
+using Infrastructure.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class GenericRepository : IGenericRepository
+    public class GenericRepository<T>(ContextBase context) : IGenericRepository<T> where T : class
     {
-        protected readonly Context _context;
-        protected readonly DbSet<T> _dbSet;
+        protected readonly ContextBase _context = context;
+        protected readonly DbSet<T> _dbSet = context.Set<T>();
 
-        public GenericRepository(Context context)
-        {
-            _context = context;
-        }
-
-        public async Task<Notifies> Add(Client obj)
+        public async Task<Notifies> Add(T obj)
         {
             try
             {
-                await dbSet.AddAsync(obj);
+                await _dbSet.AddAsync(obj);
                 await _context.SaveChangesAsync();
-                return Task.FromResult(new Notifies { Message = "Cadastrado com sucesso!", Success = true });
+                return Notifies.Success("Salvo com sucesso!");
             }
             catch (Exception e)
             {
-                return Task.FromResult(new Notifies { Message = e.Message, Success = false });
+                return Notifies.Error("Erro ao salvar: " + e.Message);
             }
-
         }
 
-        public async Task<Notifies> Update(Client obj)
+        public async Task<Notifies> Update(T obj)
         {
             try
             {
                 _dbSet.Update(obj);
                 await _context.SaveChangesAsync();
-                return Task.FromResult(new Notifies { Message = "Aualizado com sucesso!", Success = true });
+                return Notifies.Success("Atualizado com sucesso!");
             }
             catch (Exception e)
             {
-                return Task.FromResult(new Notifies { Message = e.Message, Success = false });
+                return Notifies.Error("Erro ao atualizar: " + e.Message);
             }
         }
 
-        public async Task<Notifies> Delete(Client obj)
+        public async Task<Notifies> Delete(T obj)
         {
             try
             {
                 _dbSet.Remove(obj);
                 await _context.SaveChangesAsync();
-                return Task.FromResult(new Notifies { Message = "Deletado com sucesso!", Success = true });
+                return Notifies.Success("Deletado com sucesso!");
             }
-
+            catch (Exception e)
+            {
+                return Notifies.Error("Erro ao deletar: " + e.Message);
+            }
         }
 
-        public Task<List<Client>> GetAll()
+        public async Task<T> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await _dbSet.FindAsync(id);
         }
 
-        public Task<Client> GetById(int id)
+        public async Task<List<T>> GetAll()
         {
-            //realizar busca por id
-
+            return await _dbSet.ToListAsync();
         }
     }
 }

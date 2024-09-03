@@ -1,34 +1,11 @@
 using Domain.Entities;
 using Domain.Interfaces.InterfacesRepositories;
-using Domain.Notifications;
+using Infrastructure.Configuration;
 
 namespace Infrastructure.Repositories
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository(ContextBase context) : GenericRepository<Product>(context), IProductRepository
     {
-        public Task<Notifies> Add(Product obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Notifies> Delete(Product obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Product>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Product> GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Notifies> Update(Product obj)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

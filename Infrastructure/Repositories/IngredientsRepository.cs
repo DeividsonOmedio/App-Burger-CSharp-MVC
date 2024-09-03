@@ -1,34 +1,21 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces.InterfacesRepositories;
-using Domain.Notifications;
+using Infrastructure.Configuration;
+using System.Data.Entity;
 
 namespace Infrastructure.Repositories
 {
-    public class IngredientsRepository : IIngredientsRepository
+    public class IngredientsRepository(ContextBase context) : GenericRepository<Ingredients>(context), IIngredientsRepository
     {
-        public Task<Notifies> Add(Ingredients ingredients)
+
+        public async Task<IEnumerable<Ingredients>> GetByMaterialId(int materialId)
         {
-            throw new NotImplementedException();
+            return await _dbSet.Where(x => x.MaterialId == materialId).ToListAsync();
         }
 
-        public Task<Notifies> Delete(int id)
+        public async Task<IEnumerable<Ingredients>> GetByProductId(int productId)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Ingredients>> GetByMaterialId(int materialId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Ingredients>> GetByProductId(int productId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Notifies> Update(Ingredients ingredients)
-        {
-            throw new NotImplementedException();
+            return await _dbSet.Where(x => x.ProductId == productId).ToListAsync();
         }
     }
 }

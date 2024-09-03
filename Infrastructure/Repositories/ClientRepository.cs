@@ -1,49 +1,25 @@
 using Domain.Entities;
 using Domain.Interfaces.InterfacesRepositories;
-using Domain.Notifications;
+using Infrastructure.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class ClientRepository : IClientRepository
+    public class ClientRepository(ContextBase context) : GenericRepository<Client>(context), IClientRepository
     {
-        public Task<Notifies> Add(Client obj)
+        public async Task<Client> GetByEmail(string email)
         {
-            throw new NotImplementedException();
+            return await _dbSet.FirstOrDefaultAsync(c => c.Email == email);
         }
 
-        public Task<Notifies> Delete(Client obj)
+        public async Task<Client> GetByName(string name)
         {
-            throw new NotImplementedException();
+            return await _dbSet.FirstOrDefaultAsync(c => c.Name == name);
         }
 
-        public Task<List<Client>> GetAll()
+        public async Task<Client> GetByPhone(string phone)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Client> GetByEmail(string email)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Client> GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Client> GetByName(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Client> GetByPhone(string phone)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Notifies> Update(Client obj)
-        {
-            throw new NotImplementedException();
+            return await _dbSet.FirstOrDefaultAsync(c => c.PhoneNumber == phone);
         }
     }
 }

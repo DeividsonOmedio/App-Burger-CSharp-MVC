@@ -1,65 +1,43 @@
 using Domain.Entities;
 using Domain.Entities.Enums;
 using Domain.Interfaces.InterfacesRepositories;
-using Domain.Notifications;
+using Infrastructure.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class SaleRepository : ISaleRepository
+    public class SaleRepository(ContextBase context) : GenericRepository<Sale>(context), ISaleRepository
     {
-        public Task<Notifies> Add(Sale obj)
+     
+        public async Task<List<Sale>> GetByClient(int idClient)
         {
-            throw new NotImplementedException();
+            return await _dbSet.Where(s => s.ClientId == idClient).ToListAsync();
         }
 
-        public Task<Notifies> Delete(Sale obj)
+        public async Task<List<Sale>> GetByDate(DateTime date)
         {
-            throw new NotImplementedException();
+           return await _dbSet.Where(s => s.SaleDate == date).ToListAsync();
         }
 
-        public Task<List<Sale>> GetAll()
+        public async Task<List<Sale>> GetByEmployee(int idEmployee)
         {
-            throw new NotImplementedException();
+            return await _dbSet.Where(s => s.EmployeeId == idEmployee).ToListAsync();
         }
 
-        public Task<List<Sale>> GetByClient(int idClient)
+        public async Task<List<Sale>> GetByStatusPayment(EnumStatusPayment statusPayment)
         {
-            throw new NotImplementedException();
+            return await _dbSet.Where(s => s.StatusPayment == statusPayment).ToListAsync();
         }
 
-        public Task<List<Sale>> GetByDate(DateTime date)
+        public async Task<List<Sale>> GetByStatusSale(EnumStatusSale statusSale)
         {
-            throw new NotImplementedException();
+            return await _dbSet.Where(s => s.StatusSale == statusSale).ToListAsync();
         }
 
-        public Task<List<Sale>> GetByEmployee(int idEmployee)
+        public async Task<List<Sale>> GetByTypePayment(EnumTypePayment typePayment)
         {
-            throw new NotImplementedException();
+            return await _dbSet.Where(s => s.TypePayment == typePayment).ToListAsync();
         }
 
-        public Task<Sale> GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Sale>> GetByStatusPayment(EnumStatusPayment statusPayment)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Sale>> GetByStatusSale(EnumStatusSale statusSale)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Sale>> GetByTypePayment(EnumTypePayment typePayment)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Notifies> Update(Sale obj)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

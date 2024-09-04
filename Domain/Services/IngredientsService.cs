@@ -5,9 +5,11 @@ using Domain.Notifications;
 
 namespace Domain.Services
 {
-    public class IngredientsService(IIngredientsRepository ingredientsRepository) : IIngredientsService
+    public class IngredientsService(IIngredientsRepository ingredientsRepository, IMaterialRepository materialRepository) : IIngredientsService
     {
         private readonly IIngredientsRepository _ingredientsRepository = ingredientsRepository;
+        private readonly IMaterialRepository _materialRepository = materialRepository;
+
         public async Task<Notifies> Add(Ingredients ingredients)
         {
             if (ingredients == null)
@@ -49,6 +51,20 @@ namespace Domain.Services
                 return Notifies.Error("Ingrediente não encontrado");
 
             return await _ingredientsRepository.Update(result);
+        }
+
+        public async Task<IEnumerable<string>> GetMaterialsByProductId(int productId)
+        {
+            var ingredients = await GetByProductId(productId);
+            var materials = new List<string>();
+
+            foreach (var ingredient in ingredients)
+            {
+                var material = await _materialRepository.GetById(ingredient.MaterialId);
+                materials.Add(material.Name);
+            }
+
+            return materials;
         }
     }
 }

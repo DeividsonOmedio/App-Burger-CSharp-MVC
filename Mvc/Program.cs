@@ -1,15 +1,41 @@
+using Domain.Interfaces.InterfacesRepositories;
+using Domain.Interfaces.InterfacesServices;
+using Domain.Services;
+using Infrastructure.Configuration;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Mvc.Data;
-var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("MvcContextConnection") ?? throw new InvalidOperationException("Connection string 'MvcContextConnection' not found.");
 
-builder.Services.AddDbContext<MvcContext>(options => options.UseSqlServer(connectionString));
+var builder = WebApplication.CreateBuilder(args);
+
+var mvcConnectionString = builder.Configuration.GetConnectionString("MvcContextConnection")
+    ?? throw new InvalidOperationException("Connection string 'MvcContextConnection' not found.");
+
+var infraConnectionString = builder.Configuration.GetConnectionString("ConexaoPadrao")
+    ?? throw new InvalidOperationException("Connection string 'ConexaoPadrao' not found.");
+
+// Configure MvcContext
+builder.Services.AddDbContext<MvcContext>(options =>
+    options.UseSqlServer(mvcConnectionString));
+
+// Configure ContextBase
+builder.Services.AddDbContext<ContextBase>(options =>
+    options.UseSqlServer(infraConnectionString));
+
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<MvcContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
+builder.Services.AddScoped<IIngredientsRepository, IngredientsRepository>();
+
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IMaterialService, MaterialService>();
+builder.Services.AddScoped<IIngredientsService, IngredientsService>();
 
 var app = builder.Build();
 

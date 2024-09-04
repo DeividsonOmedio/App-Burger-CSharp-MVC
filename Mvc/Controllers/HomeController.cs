@@ -23,28 +23,62 @@ namespace Mvc.Controllers
             _ingredientsService = ingredientsService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            // Buscar todos os produtos
-            var products = _productService.GetAll().Result;
+            List<Product> listProductViewModel = new List<Product>();
 
-            // Mapear os produtos para o ViewModel
-            var viewModelProducts = products.Select(p => new Mvc.Models.Product
+            // Buscar todos os produtos
+            var products = await _productService.GetAll();
+
+            foreach (var product in products)
             {
-                Id = p.Id,
-                Name = p.Name,
-                Price = p.Price,
-                Amount = p.Amount,
+                Product productViewModel = new Product
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Price = product.Price,
+                    Amount = product.Amount,
+                    Ingredients = new List<string>()
+                };
 
                 // Para cada produto, buscar os ingredientes e obter os nomes dos materiais
-                Ingredients = _ingredientsService.GetByMaterialId(p.Id).Result.Select(i => i.Material.Name).ToList()
-                                                 
-            });
+                var ingredients = await _ingredientsService.GetMaterialsByProductId(product.Id);
+                
+                foreach (var ingredient in ingredients)
+                {
+                    productViewModel.Ingredients.Add(ingredient);
+                }
 
-            // Retornar a view com os produtos mapeados
-            return View(viewModelProducts);
+                listProductViewModel.Add(productViewModel);
+            }
+
+            return View(listProductViewModel);
         }
 
+        //receber o id do produto e quantidade
+        public async Task<IActionResult> AddToCart(int id, int amount)
+        {
+            Dictionary<int, int> Cart = new Dictionary<int, int>();// id do produto e quantidade
+
+            var product = await _productService.GetById(id);
+
+            //verificar se o produto existe
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            //verificar se a quantidade é maior que zero
+            if (amount <= 0)
+            {
+                return BadRequest();
+            }
+
+            //adicionar o produto ao carrinho
+            Cart.Add(product.Id, amount);
+
+            return RedirectToAction("Index");
+        }
 
 
         public IActionResult Privacy()

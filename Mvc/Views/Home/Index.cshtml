@@ -24,6 +24,7 @@
         <dt>
                 <h5>@item.Amount</h5>
         </dt>
+    </dl>
         <table>
             <tr>
                 @foreach (var item2 in item.Ingredients)
@@ -38,6 +39,15 @@
                 </td>
             </tr>
         </table>
-    </dl>
+        <button type="button" class="btn btn-primary" asp-controller="Purchase" asp-action="AddToCart(@item.Id, 1)">Adicionar ao carrinho</button>
+    
+        <form asp-controller="Purchase" asp-action="AddToCart" method="post">
+            <h1>Valido</h1>
+            <input type="hidden" name="id" value="@item.Id" />
+            <input type="hidden" name="amount" value="1" />
+            <button type="submit" class="btn btn-primary">Adicionar ao cart</button>
+        </form>
+    
     }
 </div>
+

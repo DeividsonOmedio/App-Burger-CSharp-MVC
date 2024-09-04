@@ -1,0 +1,13 @@
+﻿using Domain.Entities;
+using Domain.Notifications;
+
+namespace Domain.Interfaces.InterfacesServices
+{
+    public interface ICartService
+    {
+        Task<Cart> GetById(int id);
+        Task<Notifies> Add(Cart cart);
+        Task<Notifies> Update(Cart cart);
+        Task<Notifies> Delete(int id);
+    }
+}

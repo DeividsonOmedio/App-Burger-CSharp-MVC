@@ -32,10 +32,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
 builder.Services.AddScoped<IIngredientsRepository, IngredientsRepository>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IMaterialService, MaterialService>();
 builder.Services.AddScoped<IIngredientsService, IngredientsService>();
+builder.Services.AddScoped<ICartService, CartService>();
 
 var app = builder.Build();
 

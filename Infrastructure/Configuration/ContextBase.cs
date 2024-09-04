@@ -14,6 +14,7 @@ namespace Infrastructure.Configuration
         public DbSet<Sale> Sales { get; set; }
         public DbSet<SaleProduct> SaleProducts { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
         public ContextBase(DbContextOptions<ContextBase> options) : base(options)
         {
@@ -113,6 +114,12 @@ namespace Infrastructure.Configuration
                 new SaleProduct { Id = 3, SaleId = 2, ProductId = 1, Amount = 1 },
                 new SaleProduct { Id = 4, SaleId = 2, ProductId = 2, Amount = 2 }
             );
+
+            // sed data para Cart
+            modelBuilder.Entity<Cart>().HasData(
+                new Cart { Id = 1, ProductId = 1, Amount = 2, ClientId = 1 },
+                new Cart { Id = 2, ProductId = 2, Amount = 1, ClientId = 2 }
+                                                         );
         }
     }
 }

@@ -20,9 +20,9 @@ namespace Mvc.Controllers
 
 
         // GET: CartController1
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var cart = _cartService.GetById(1);
+            var cart = await _cartService.GetById(1);
 
             Models.Cart cart1 = new Models.Cart
             {

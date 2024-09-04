@@ -12,6 +12,6 @@ namespace Domain.Interfaces.InterfacesServices
         Task<List<Employee>> GetByFunction(EnumFunctionEmployee function);
         Task<Notifies> Add(Employee employee);
         Task<Notifies> Update(Employee empoyee);
-        Task<Notifies> Delete(Employee empoyee);
+        Task<Notifies> Delete(int id);
     }
 }

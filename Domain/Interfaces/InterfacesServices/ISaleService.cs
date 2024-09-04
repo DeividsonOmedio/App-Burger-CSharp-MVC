@@ -14,8 +14,8 @@ namespace Domain.Interfaces.InterfacesServices
         Task<IEnumerable<Sale>> GetByTypePayment(EnumTypePayment typePayment);
         Task<IEnumerable<Sale>> GetByStatusPayment(EnumStatusPayment statusPayment);
         Task<IEnumerable<Sale>> GetByStatusSale(EnumStatusSale statusSale);
-        Task<Notifies> Add(Sale sale);
-        Task<Notifies> Update(Sale sale);
+        Task<Notifies> Add(Sale sale, List<SaleProduct> saleProducts);
+        Task<Notifies> Update(Sale sale, List<SaleProduct> saleProducts);
         Task<Notifies> Delete(int id);
     }
 }

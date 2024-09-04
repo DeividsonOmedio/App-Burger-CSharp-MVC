@@ -1,49 +1,72 @@
 using Domain.Entities;
+using Domain.Interfaces.InterfacesRepositories;
 using Domain.Interfaces.InterfacesServices;
 using Domain.Notifications;
 
 namespace Domain.Services
 {
-    public class MaterialService : IMaterialService
+    public class MaterialService(IMaterialRepository materialRepository) : IMaterialService
     {
-        public Task<Notifies> Add(Material material)
+        private readonly IMaterialRepository _materialRepository = materialRepository;
+        public async Task<Notifies> Add(Material material)
         {
-            throw new NotImplementedException();
+            if (material == null)
+                return Notifies.Error("Material inválido");
+
+            return await _materialRepository.Add(material);
         }
 
-        public Task<Notifies> Delete(int id)
+        public async Task<Notifies> Delete(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+                return Notifies.Error("Id inválido");
+
+            var result = await _materialRepository.GetById(id);
+            if (result == null)
+                return Notifies.Error("Material não encontrado");
+
+            return await _materialRepository.Delete(result);
         }
 
-        public Task<IEnumerable<Material>> GetAll()
+        public async Task<IEnumerable<Material>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _materialRepository.GetAll();
         }
 
-        public Task<IEnumerable<Material>> GetByAmount(decimal amount)
+        public async Task<IEnumerable<Material>> GetByAmount(decimal amount)
         {
-            throw new NotImplementedException();
+            return await _materialRepository.GetByAmount(amount);
         }
 
-        public Task<Material> GetById(int id)
+        public async Task<Material> GetById(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+                return null;
+
+            return await _materialRepository.GetById(id);
         }
 
-        public Task<IEnumerable<Material>> GetByMinimumQuantity(decimal minimumQuantity)
+        public async Task<IEnumerable<Material>> GetByMinimumQuantity(decimal minimumQuantity)
         {
-            throw new NotImplementedException();
+            return await _materialRepository.GetByMinimumQuantity(minimumQuantity);
         }
 
-        public Task<IEnumerable<Material>> GetByPurchasePrice(decimal purchasePrice)
+        public async Task<IEnumerable<Material>> GetByPurchasePrice(decimal purchasePrice)
         {
-            throw new NotImplementedException();
+            return await _materialRepository.GetByPurchasePrice(purchasePrice);
         }
 
-        public Task<Notifies> Update(Material material)
+        public async Task<Notifies> Update(Material material)
         {
-            throw new NotImplementedException();
+            if (material == null)
+                return Notifies.Error("Material inválido");
+
+            var result = await _materialRepository.GetById(material.Id);
+
+            if (result == null)
+                return Notifies.Error("Material não encontrado");
+
+            return await _materialRepository.Update(result);
         }
     }
 }

@@ -1,45 +1,70 @@
 using Domain.Entities;
 using Domain.Entities.Enums;
+using Domain.Interfaces.InterfacesRepositories;
 using Domain.Interfaces.InterfacesServices;
 using Domain.Notifications;
 
 namespace Domain.Services
 {
-    public class EmployeeService : IEmployeeService
+    public class EmployeeService(IEmployeeRepository employeeRepository) : IEmployeeService
     {
-        public Task<Notifies> Add(Employee employee)
+        private readonly IEmployeeRepository _employeeRepository = employeeRepository;
+        public async Task<Notifies> Add(Employee employee)
         {
-            throw new NotImplementedException();
+            if (employee == null)
+                return Notifies.Error("Funcionário inválido");
+
+            return await _employeeRepository.Add(employee);
         }
 
-        public Task<Notifies> Delete(Employee empoyee)
+        public async Task<Notifies> Delete(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+                return Notifies.Error("Id inválido");
+
+            var result = await _employeeRepository.GetById(id);
+            if (result == null)
+                return Notifies.Error("Funcionário não encontrado");
+
+            return await _employeeRepository.Delete(result);
         }
 
-        public Task<IEnumerable<Employee>> GetAll()
+        public async Task<IEnumerable<Employee>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _employeeRepository.GetAll();
         }
 
-        public Task<List<Employee>> GetByFunction(EnumFunctionEmployee function)
+        public async Task<List<Employee>> GetByFunction(EnumFunctionEmployee function)
         {
-            throw new NotImplementedException();
+            return await _employeeRepository.GetByFunction(function);
         }
 
-        public Task<Employee> GetById(int id)
+        public async Task<Employee> GetById(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+                return null;
+
+            return await _employeeRepository.GetById(id);
         }
 
-        public Task<Employee> GetByUser(string user)
+        public async Task<Employee> GetByUser(string user)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(user))
+                return null;
+
+            return await _employeeRepository.GetByUser(user);
         }
 
-        public Task<Notifies> Update(Employee empoyee)
+        public async Task<Notifies> Update(Employee empoyee)
         {
-            throw new NotImplementedException();
+            if (empoyee == null)
+                return Notifies.Error("Funcionário inválido");
+
+            var result = await _employeeRepository.GetById(empoyee.Id);
+            if (result == null)
+                return Notifies.Error("Funcionário não encontrado");
+
+            return await _employeeRepository.Update(result);
         }
     }
 }

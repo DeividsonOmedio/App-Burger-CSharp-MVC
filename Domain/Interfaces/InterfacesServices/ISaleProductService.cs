@@ -8,7 +8,6 @@ namespace Domain.Interfaces.InterfacesServices
         Task<IEnumerable<SaleProduct>> GetAll();
         Task<SaleProduct> GetById(int id);
         Task<IEnumerable<SaleProduct>> GetBySale(int idSale);
-        Task<IEnumerable<SaleProduct>> GetByProduct(int idProduct);
         Task<Notifies> Add(SaleProduct saleProduct);
         Task<Notifies> Update(SaleProduct saleProduct);
         Task<Notifies> Delete(int id);

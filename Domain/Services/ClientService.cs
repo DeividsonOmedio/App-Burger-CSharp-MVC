@@ -1,49 +1,84 @@
 using Domain.Entities;
+using Domain.Interfaces.InterfacesRepositories;
 using Domain.Interfaces.InterfacesServices;
 using Domain.Notifications;
 
 namespace Domain.Services
 {
-    public class ClientService : IClientService
+    public class ClientService(IClientRepository clientRepository) : IClientService
     {
-        public Task<Notifies> Add(Client client)
+        private readonly IClientRepository _clientRepository = clientRepository;
+
+        public async Task<Notifies> Add(Client client)
         {
-            throw new NotImplementedException();
+            if (client == null)
+                return Notifies.Error("Cliente inválido");
+
+            return await _clientRepository.Add(client);
         }
 
-        public Task<Notifies> Delete(Client client)
+        public async Task<Notifies> Update(Client client)
         {
-            throw new NotImplementedException();
+            if (client == null)
+                return Notifies.Error("Cliente inválido");
+
+            var result = await _clientRepository.GetById(client.Id);
+            if (result == null)
+                return Notifies.Error("Cliente não encontrado");
+
+            return await _clientRepository.Update(result);
+            
         }
 
-        public Task<IEnumerable<Client>> GetAll()
+        public async Task<Notifies> Delete(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+                return Notifies.Error("Id inválido");
+
+            var result = await _clientRepository.GetById(id);
+            if (result == null)
+                return Notifies.Error("Cliente não encontrado");
+
+            return await _clientRepository.Delete(result);
+            
         }
 
-        public Task<Client> GetByEmail(string email)
+        public async Task<IEnumerable<Client>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _clientRepository.GetAll();
         }
 
-        public Task<Client> GetById(int id)
+        public async Task<Client> GetById(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+                return null;
+
+            return await _clientRepository.GetById(id);
         }
 
-        public Task<Client> GetByName(string name)
+        public async Task<Client> GetByEmail(string email)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(email))
+                return null;
+
+            return await _clientRepository.GetByEmail(email);
         }
 
-        public Task<Client> GetByPhone(string phone)
+        public async Task<Client> GetByName(string name)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(name))
+                return null;
+
+            return await _clientRepository.GetByName(name);
         }
 
-        public Task<Notifies> Update(Client client)
+        public async Task<Client> GetByPhone(string phone)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(phone))
+                return null;
+
+            return await _clientRepository.GetByPhone(phone);
         }
+
     }
 }

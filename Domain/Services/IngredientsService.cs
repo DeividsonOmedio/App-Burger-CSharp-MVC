@@ -1,34 +1,54 @@
 using Domain.Entities;
+using Domain.Interfaces.InterfacesRepositories;
 using Domain.Interfaces.InterfacesServices;
 using Domain.Notifications;
 
 namespace Domain.Services
 {
-    public class IngredientsService : IIngredientsService
+    public class IngredientsService(IIngredientsRepository ingredientsRepository) : IIngredientsService
     {
-        public Task<Notifies> Add(Ingredients ingredients)
+        private readonly IIngredientsRepository _ingredientsRepository = ingredientsRepository;
+        public async Task<Notifies> Add(Ingredients ingredients)
         {
-            throw new NotImplementedException();
+            if (ingredients == null)
+                return Notifies.Error("Ingrediente inválido");
+
+            return await _ingredientsRepository.Add(ingredients);
         }
 
-        public Task<Notifies> Delete(int id)
+        public async Task<Notifies> Delete(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+                return Notifies.Error("Id inválido");
+
+            var result = await _ingredientsRepository.GetById(id);
+            if (result == null)
+                return Notifies.Error("Ingrediente não encontrado");
+
+            return await _ingredientsRepository.Delete(result);
         }
 
-        public Task<IEnumerable<Ingredients>> GetByMaterialId(int materialId)
+        public async Task<IEnumerable<Ingredients>> GetByMaterialId(int materialId)
         {
-            throw new NotImplementedException();
+            return await _ingredientsRepository.GetByMaterialId(materialId);
         }
 
-        public Task<IEnumerable<Ingredients>> GetByProductId(int productId)
-        {
-            throw new NotImplementedException();
+        public async Task<IEnumerable<Ingredients>> GetByProductId(int productId)
+        { 
+            return await _ingredientsRepository.GetByProductId(productId);
         }
 
-        public Task<Notifies> Update(Ingredients ingredients)
+        public async Task<Notifies> Update(Ingredients ingredients)
         {
-            throw new NotImplementedException();
+            if (ingredients == null)
+                return Notifies.Error("Ingrediente inválido");
+
+            var result = await _ingredientsRepository.GetById(ingredients.Id);
+
+            if (result == null)
+                return Notifies.Error("Ingrediente não encontrado");
+
+            return await _ingredientsRepository.Update(result);
         }
     }
 }

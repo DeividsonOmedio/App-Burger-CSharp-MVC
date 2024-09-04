@@ -1,4 +1,5 @@
 using Domain.Entities;
+using Domain.Notifications;
 
 namespace Domain.Interfaces.InterfacesServices
 {
@@ -6,7 +7,9 @@ namespace Domain.Interfaces.InterfacesServices
     {
         Task<IEnumerable<Product>> GetAll();
         Task<Product> GetById(int id);
-        Task<Product> GetByName(string name);
+        Task<Notifies> Add(Product product);
+        Task<Notifies> Update(Product product);
+        Task<Notifies> Delete(int id);
 
     }
 }

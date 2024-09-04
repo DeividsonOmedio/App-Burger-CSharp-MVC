@@ -1,44 +1,63 @@
 using Domain.Entities;
+using Domain.Interfaces.InterfacesRepositories;
 using Domain.Interfaces.InterfacesServices;
 using Domain.Notifications;
 
 namespace Domain.Services
 {
-    public class SaleProductService : ISaleProductService
+    public class SaleProductService(ISaleProductRepository saleProductRepository) : ISaleProductService
     {
-        public Task<Notifies> Add(SaleProduct saleProduct)
+        private readonly ISaleProductRepository _saleProductRepository = saleProductRepository;
+
+        public async Task<Notifies> Add(SaleProduct saleProduct)
         {
-            throw new NotImplementedException();
+            if (saleProduct == null)
+                return Notifies.Error("Produto inválido");
+
+            return await _saleProductRepository.Add(saleProduct);
         }
 
-        public Task<Notifies> Delete(int id)
+        public async Task<Notifies> Delete(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+                return Notifies.Error("Id inválido");
+
+            var result = await _saleProductRepository.GetById(id);
+            if (result == null)
+                return Notifies.Error("Produto não encontrado");
+
+            return await _saleProductRepository.Delete(result);
         }
 
-        public Task<IEnumerable<SaleProduct>> GetAll()
+        public async Task<IEnumerable<SaleProduct>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _saleProductRepository.GetAll();
         }
 
-        public Task<SaleProduct> GetById(int id)
+        public async Task<SaleProduct> GetById(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+                return null;
+
+            return await _saleProductRepository.GetById(id);
         }
 
-        public Task<IEnumerable<SaleProduct>> GetByProduct(int idProduct)
+        public async Task<IEnumerable<SaleProduct>> GetBySale(int idSale)
         {
-            throw new NotImplementedException();
+            return await _saleProductRepository.GetBySale(idSale);
         }
 
-        public Task<IEnumerable<SaleProduct>> GetBySale(int idSale)
+        public async Task<Notifies> Update(SaleProduct saleProduct)
         {
-            throw new NotImplementedException();
-        }
+            if (saleProduct == null)
+                return Notifies.Error("Produto inválido");
 
-        public Task<Notifies> Update(SaleProduct saleProduct)
-        {
-            throw new NotImplementedException();
+            var result = await _saleProductRepository.GetById(saleProduct.Id);
+
+            if (result == null)
+                return Notifies.Error("Produto não encontrado");
+
+            return await _saleProductRepository.Update(result);
         }
     }
 }

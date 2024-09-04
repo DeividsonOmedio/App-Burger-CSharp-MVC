@@ -1,23 +1,57 @@
 using Domain.Entities;
+using Domain.Interfaces.InterfacesRepositories;
 using Domain.Interfaces.InterfacesServices;
+using Domain.Notifications;
 
 namespace Domain.Services
 {
-    public class ProductService : IProductService
+    public class ProductService(IProductRepository productRepository) : IProductService
     {
-        public Task<IEnumerable<Product>> GetAll()
+        private readonly IProductRepository _productRepository = productRepository;
+        public async Task<Notifies> Add(Product product)
         {
-            throw new NotImplementedException();
+            if (product == null)
+                return Notifies.Error("Produto inválido");
+
+            return await _productRepository.Add(product);
         }
 
-        public Task<Product> GetById(int id)
+        public async Task<Notifies> Delete(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+                return Notifies.Error("Id inválido");
+
+            var result = await _productRepository.GetById(id);
+            if (result == null)
+                return Notifies.Error("Produto não encontrado");
+
+            return await _productRepository.Delete(result);
         }
 
-        public Task<Product> GetByName(string name)
+        public async Task<IEnumerable<Product>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _productRepository.GetAll();
+        }
+
+        public async Task<Product> GetById(int id)
+        {
+            if (id <= 0)
+                return null;
+
+            return await _productRepository.GetById(id);
+        }
+
+        public async Task<Notifies> Update(Product product)
+        {
+            if (product == null)
+                return Notifies.Error("Produto inválido");
+
+            var result = await _productRepository.GetById(product.Id);
+
+            if (result == null)
+                return Notifies.Error("Produto não encontrado");
+
+            return await _productRepository.Update(result);
         }
     }
 }

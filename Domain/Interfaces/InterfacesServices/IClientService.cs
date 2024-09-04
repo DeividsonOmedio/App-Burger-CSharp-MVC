@@ -12,6 +12,6 @@ namespace Domain.Interfaces.InterfacesServices
         Task<Client> GetByPhone(string phone);
         Task<Notifies> Add(Client client);
         Task<Notifies> Update(Client client);
-        Task<Notifies> Delete(Client client);
+        Task<Notifies> Delete(int id);
     }
 }

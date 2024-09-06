@@ -1,6 +1,8 @@
 ﻿using Domain.Interfaces.InterfacesServices;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using Mvc.Models;
 
 namespace Mvc.Controllers
 {
@@ -10,22 +12,42 @@ namespace Mvc.Controllers
 
         private readonly ICartService _cartService;
 
-        public PurchaseController(ILogger<HomeController> logger, ICartService cartService)
+        private readonly IClientService _clientService;
+        
+        private readonly IProductService _productService;
+
+        public PurchaseController(ILogger<HomeController> logger, ICartService cartService, IClientService clientService, IProductService productService)
         {
             _logger = logger;
             _cartService = cartService;
+            _clientService = clientService;
+            _productService = productService;
         }
 
         public async Task<ActionResult> Index()
         {
-            var cart = await _cartService.GetById(1);
-
-            Models.Cart cart1 = new Models.Cart
+            if (!User.Identity.IsAuthenticated)
             {
-                Id = cart.Id,
-                ProductId = cart.Id
-            };
-            return View(cart1);
+                return Redirect("https://localhost:7169/Identity/Account/Login");
+            }
+            var userId = await UserIdLogged();
+
+            var cart = await _cartService.GetByClientId(userId);
+
+            var cartViewModel = cart.Select(item => new Models.Cart
+            {
+                ProductId = item.ProductId,
+                ProductName = item.Product.Name,
+                ProductPrice = item.Product.Price,
+                Amount = item.Amount,
+                TotalPrice = item.Product.Price * item.Amount,
+                ClientId = item.ClientId
+            }).ToList();
+
+            return View(cartViewModel);
+
+
+
         }
 
         public ActionResult Details(int id)
@@ -49,7 +71,17 @@ namespace Mvc.Controllers
             }
 
             var clientEmailClaim = User.Identities.FirstOrDefault().Claims.FirstOrDefault(x => x.Type.Contains("mail")).Value;
-            var clientNameClaim = User.Identity.Name;
+            
+            try
+            {
+                var client = await _clientService.GetByEmail(clientEmailClaim);
+                cart.ClientId = client.Id;
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             await _cartService.Add(cart);
 
             return RedirectToAction("Index");
@@ -90,6 +122,13 @@ namespace Mvc.Controllers
             {
                 return View();
             }
+        }
+
+        public async Task<int> UserIdLogged()
+        {
+            var userEmail = User.Identities.FirstOrDefault().Claims.FirstOrDefault(x => x.Type.Contains("mail")).Value;
+            var result = await _clientService.GetByEmail(userEmail);
+            return result.Id;
         }
     }
 }

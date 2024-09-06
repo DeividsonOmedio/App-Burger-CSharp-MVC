@@ -5,9 +5,11 @@ using Domain.Notifications;
 
 namespace Domain.Services
 {
-    public class CartService(ICartRepository cartRepository) : ICartService
+    public class CartService(ICartRepository cartRepository, IProductService productService) : ICartService
     {
         private readonly ICartRepository _cartRepository = cartRepository;
+
+        private readonly IProductService _productService = productService;
 
         public async Task<Notifies> Add(Cart cart)
         {
@@ -48,5 +50,21 @@ namespace Domain.Services
             return await _cartRepository.GetById(id);
         }
 
+        public async Task<List<Cart>> GetByClientId(int clientId)
+        {
+            List<Product> products = new List<Product>();
+            var result = await _cartRepository.GetByClientId(clientId);
+
+            if (result == null)
+                return null;
+            
+            foreach (var item in result)
+            {
+                var resultProduct = await _productService.GetById(item.ProductId);
+                products.Add(resultProduct);
+            }
+            
+            return result;
+        }
     }
 }

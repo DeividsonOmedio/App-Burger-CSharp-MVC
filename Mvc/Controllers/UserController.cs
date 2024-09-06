@@ -45,10 +45,11 @@ namespace Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddNewCadastre(Cadastre cadastre)
         {
+            
             Domain.Entities.Client client = new Domain.Entities.Client
             {
-                Name = cadastre.Name,
-                Email = cadastre.Email,
+                Name = User.Identity.Name,
+                Email = User.Identities.FirstOrDefault().Claims.FirstOrDefault(x => x.Type.Contains("mail")).Value,
                 PhoneNumber = cadastre.PhoneNumber,
                 DataBirth = cadastre.DataBirth,
                 RegisteredIn = DateTime.Now
@@ -87,7 +88,7 @@ namespace Mvc.Controllers
 
             try
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             catch
             {

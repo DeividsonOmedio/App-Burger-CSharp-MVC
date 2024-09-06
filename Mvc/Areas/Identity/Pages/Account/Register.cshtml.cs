@@ -148,6 +148,7 @@ namespace Mvc.Areas.Identity.Pages.Account
                     //    await _signInManager.SignInAsync(user, isPersistent: false);
                     //    return RedirectToAction("Create", "Address");
                     //}
+                    await _userManager.ConfirmEmailAsync(user, await _userManager.GenerateEmailConfirmationTokenAsync(user));
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "User");
                 }

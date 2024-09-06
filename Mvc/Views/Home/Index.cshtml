@@ -33,15 +33,13 @@
                         <form asp-controller="Purchase" asp-action="AddToCart" method="post">
                             <input type="hidden" name="ProductId" value="@item.Id" />
                             <input type="hidden" name="amount" value="1" />
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fa fa-heart"></i> Adicionar
-                            </button>
+                            <button type="submit" class="btn btn-primary"> Adicionar </button>
                         </form>
                     </td>
 
                     <!-- Alinhando o preço no centro vertical -->
                     <td class="align-middle pricing">
-                        <span class="text-muted font-weight-bold bg-info text-white">R$ @item.Price.ToString("F2")</span>
+                        <span class="text-muted font-weight-bold border-2">R$ @item.Price.ToString("F2")</span>
                     </td>
                 </tr>
             </table>

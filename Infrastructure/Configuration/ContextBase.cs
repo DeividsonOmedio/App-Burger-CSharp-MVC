@@ -8,6 +8,7 @@ namespace Infrastructure.Configuration
     public partial class ContextBase : DbContext
     {
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Address> Addresses { get; set; }
         public DbSet<Material> Materials { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Ingredients> Ingredients { get; set; }
@@ -119,7 +120,13 @@ namespace Infrastructure.Configuration
             modelBuilder.Entity<Cart>().HasData(
                 new Cart { Id = 1, ProductId = 1, Amount = 2, ClientId = 1 },
                 new Cart { Id = 2, ProductId = 2, Amount = 1, ClientId = 2 }
-                                                         );
+           );
+
+            // Seed data para Addresses
+            modelBuilder.Entity<Address>().HasData(
+                new Address { Id = 1, Street = "Rua 1", Number = 10, City = "Barão de Cocais", State = "MG", ZipCode = "35970000", ClientId = 1 },
+                new Address { Id = 2, Street = "Rua 2", Number = 01, City = "São Paulo", State = "SP", ZipCode = "654321544", ClientId = 2 }
+           );
         }
     }
 }

@@ -1,8 +1,6 @@
-﻿using Domain.Entities;
-using Domain.Interfaces.InterfacesServices;
-using Microsoft.AspNetCore.Http;
+﻿using Domain.Interfaces.InterfacesServices;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Mvc.Models;
 
 namespace Mvc.Controllers
 {
@@ -18,8 +16,6 @@ namespace Mvc.Controllers
             _cartService = cartService;
         }
 
-
-        // GET: CartController1
         public async Task<ActionResult> Index()
         {
             var cart = await _cartService.GetById(1);
@@ -32,45 +28,38 @@ namespace Mvc.Controllers
             return View(cart1);
         }
 
-        // GET: CartController1/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: CartController1/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: CartController1/AddToCart
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToCart(Domain.Entities.Cart cart)
         {
-            // Obtendo o ID do cliente logado (por exemplo, do HttpContext)
-            var clientId = 1; // Supondo que você tenha uma forma de pegar o cliente logado
 
-            // Verifica se a quantidade é maior que zero
-            
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Redirect("https://localhost:7169/Identity/Account/Login");
+            }
 
-           
-
-        
-
-            // Adiciona o produto ao carrinho usando o serviço
+            var clientEmailClaim = User.Identities.FirstOrDefault().Claims.FirstOrDefault(x => x.Type.Contains("mail")).Value;
+            var clientNameClaim = User.Identity.Name;
             await _cartService.Add(cart);
 
             return RedirectToAction("Index");
         }
-        // GET: CartController1/Edit/5
+
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: CartController1/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -84,14 +73,11 @@ namespace Mvc.Controllers
                 return View();
             }
         }
-
-        // GET: CartController1/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: CartController1/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

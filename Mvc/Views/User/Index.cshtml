@@ -1,0 +1,25 @@
+﻿@model Cadastre
+
+<h2>Finalização do cadastro</h2>
+
+<form asp-controller="User" asp-action="AddNewCadastre" method="post">
+    <input type="text" name="name" disabled value="@Model.Name" />
+    <input type="email" name="email" disabled value="@Model.Email" />
+    <input type="tel" name="PhoneNumber" placeholder="Telefone" value="@Model.PhoneNumber" />
+    <input type="date" name="birthDate" placeholder="Data de Nascimento" value="@Model.DataBirth" />
+
+    <h2>Cadastre seu endereço</h2>
+
+    <input type="text" name="street" placeholder="Logradouro" />
+    <input type="number" name="number" placeholder="Número" />
+    <input type="text" name="referency" placeholder="Referencia" />
+    <input type="text" name="zipCode" placeholder="CEP" />
+    <input type="text" name="city" placeholder="Cidade" />
+    <input type="text" name="state" placeholder="Estado" />
+
+
+
+    <button type="submit" class="btn btn-primary">
+        <i class="fa fa-heart"></i> Adicionar
+    </button>
+</form>

@@ -7,6 +7,10 @@ namespace Mvc.Areas.Identity.Data
     {
         [MaxLength(50, ErrorMessage = "O tamanho máximo é de 50 caracteres")]
         public string UserName { get; set; }
+
+        [MaxLength(50, ErrorMessage = "O tamanho máximo é de 50 caracteres")]
+        public string Name { get; set; }
+
         [MaxLength(15, ErrorMessage = "O tamanho máximo é de 15 caracteres")]
         public string PhoneNumber { get; set; }
     }

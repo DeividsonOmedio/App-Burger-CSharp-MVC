@@ -73,6 +73,11 @@ namespace Mvc.Areas.Identity.Pages.Account
 
             [MaxLength(50, ErrorMessage = "O tamanho máximo é de 50 caracteres")]
             public string UserName { get; set; }
+
+            [Required]
+            [MaxLength(50, ErrorMessage = "O tamanho máximo é de 50 caracteres")]
+            public string Name { get; set; }
+
             [MaxLength(15, ErrorMessage = "O tamanho máximo é de 15 caracteres")]
             public string PhoneNumber { get; set; }
             /// <summary>
@@ -117,10 +122,21 @@ namespace Mvc.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+                // Verificar se o email já está em uso
+                var existingUser = await _userManager.FindByEmailAsync(Input.Email);
+                if (existingUser != null)
+                {
+                    ModelState.AddModelError(string.Empty, "Email já está em uso.");
+                    return Page();
+                }
+
                 var user = CreateUser();
 
-                await _userStore.SetUserNameAsync(user, Input.UserName, CancellationToken.None);
+                user.Name = Input.Name;
+
+                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
@@ -149,6 +165,7 @@ namespace Mvc.Areas.Identity.Pages.Account
                     //    return RedirectToAction("Create", "Address");
                     //}
                     await _userManager.ConfirmEmailAsync(user, await _userManager.GenerateEmailConfirmationTokenAsync(user));
+                    await _userManager.AddToRoleAsync(user, "Client");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "User");
                 }

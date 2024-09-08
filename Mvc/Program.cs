@@ -4,6 +4,7 @@ using Domain.Services;
 using Infrastructure.Configuration;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Mvc.Data;
 
@@ -23,8 +24,12 @@ builder.Services.AddDbContext<MvcContext>(options =>
 builder.Services.AddDbContext<ContextBase>(options =>
     options.UseSqlServer(infraConnectionString));
 
+// Adiciona suporte a roles com o Identity moderno
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>() // Adiciona suporte a roles
+    .AddEntityFrameworkStores<MvcContext>();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<MvcContext>();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -49,7 +54,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -66,4 +70,53 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+
+    // Chame o método para criar roles
+    await CreateRoles(services);
+}
+
 app.Run();
+
+// Método para criar roles
+async Task CreateRoles(IServiceProvider serviceProvider)
+{
+    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+    string[] roleNames = { "Admin", "Client" };
+    IdentityResult roleResult;
+
+    foreach (var roleName in roleNames)
+    {
+        var roleExist = await roleManager.RoleExistsAsync(roleName);
+        if (!roleExist)
+        {
+            roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
+        }
+    }
+
+    var powerUser = new IdentityUser
+    {
+        UserName = "admin@admin.com",
+        Email = "admin@admin.com"
+    };
+
+    string adminPassword = "Admin@123";
+    powerUser.EmailConfirmed = true;
+    // Passando o e-mail diretamente
+    var user = await userManager.FindByEmailAsync(powerUser.Email);
+
+    if (user == null)
+    {
+        var createPowerUser = await userManager.CreateAsync(powerUser, adminPassword);
+        if (createPowerUser.Succeeded)
+        {
+            await userManager.AddToRoleAsync(powerUser, "Admin");
+        }
+    }
+}

@@ -14,9 +14,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Name" class="form-control" autocomplete="username" aria-required="true" placeholder="Seu nome" />
-                <input asp-for="Input.UserName" type="hidden" class="form-control" autocomplete="username" aria-required="true" placeholder="Seu nome aqui" />
-                <label asp-for="Input.UserName">Nome</label>
-                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                <input asp-for="Input.Name" type="hidden" class="form-control" autocomplete="username" aria-required="true" placeholder="Seu nome aqui" />
+                <label asp-for="Input.Name">Nome</label>
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />

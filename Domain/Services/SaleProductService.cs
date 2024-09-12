@@ -5,9 +5,10 @@ using Domain.Notifications;
 
 namespace Domain.Services
 {
-    public class SaleProductService(ISaleProductRepository saleProductRepository) : ISaleProductService
+    public class SaleProductService(ISaleProductRepository saleProductRepository, IProductRepository productRepository) : ISaleProductService
     {
         private readonly ISaleProductRepository _saleProductRepository = saleProductRepository;
+        private readonly IProductRepository _productRepository = productRepository;
 
         public async Task<Notifies> Add(SaleProduct saleProduct)
         {
@@ -31,7 +32,16 @@ namespace Domain.Services
 
         public async Task<IEnumerable<SaleProduct>> GetAll()
         {
-            return await _saleProductRepository.GetAll();
+            var result = await _saleProductRepository.GetAll();
+            if (result == null)
+                return null;
+            var resulWithDetails = new List<SaleProduct>();
+            foreach ( var item in result)
+            {
+                item.Product = await _productRepository.GetById(item.ProductId);
+                resulWithDetails.Add(item);
+            }
+            return resulWithDetails;
         }
 
         public async Task<SaleProduct> GetById(int id)
@@ -44,7 +54,16 @@ namespace Domain.Services
 
         public async Task<IEnumerable<SaleProduct>> GetBySale(int idSale)
         {
-            return await _saleProductRepository.GetBySale(idSale);
+            var result = await _saleProductRepository.GetBySale(idSale);
+            if (result == null)
+                return null;
+            var resulWithDetails = new List<SaleProduct>();
+            foreach (var item in result)
+            {
+                item.Product = await _productRepository.GetById(item.ProductId);
+                resulWithDetails.Add(item);
+            }
+            return resulWithDetails;
         }
 
         public async Task<Notifies> Update(SaleProduct saleProduct)

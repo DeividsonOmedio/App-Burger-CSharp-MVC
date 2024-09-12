@@ -25,6 +25,10 @@ namespace Mvc.Controllers
 
         public async Task<IActionResult> Index()
         {
+            if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Manager");
+            }
             List<Product> listProductViewModel = new List<Product>();
 
             // Buscar todos os produtos

@@ -127,7 +127,7 @@ namespace Mvc.Areas.Identity.Pages.Account
                 // Redireciona para a página de gerenciamento se o papel for Admin
                 if (roles.Contains("Admin"))
                 {
-                    return RedirectToPage("/Manager/Index");
+                    return RedirectToAction("Index", "Manager");
                 }
     
                 _logger.LogInformation("User logged in.");

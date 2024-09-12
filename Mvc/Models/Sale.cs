@@ -8,7 +8,10 @@ namespace Mvc.Models
         public DateTime SaleDate { get; set; }
 
         public int ClientId { get; set; }
-        public Client Client { get; set; } = null!;
+
+        public string ClientName { get; set; } = null!;
+        
+        public string PhoneNumber { get; set; }
 
         public decimal TotalValue { get; set; }
 
@@ -21,7 +24,10 @@ namespace Mvc.Models
         public decimal? Discount { get; set; }
 
         public int EmployeeId { get; set; }
-        public Employee Employee { get; set; } = null!;
+        
+        public string EmployeeName { get; set; } = null!;
+
+        public List<string> SaleProductsName { get; set; } = new List<string>();
 
     }
 }

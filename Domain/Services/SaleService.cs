@@ -6,11 +6,12 @@ using Domain.Notifications;
 
 namespace Domain.Services
 {
-    public class SaleService(ISaleRepository saleRepository, ISaleProductRepository saleProductRepository) : ISaleService
+    public class SaleService(ISaleRepository saleRepository, ISaleProductRepository saleProductRepository, IEmployeeService employeeService, IClientService clientService) : ISaleService
     {
         private readonly ISaleRepository _saleRepository = saleRepository;
         private readonly ISaleProductRepository _saleProductRepository = saleProductRepository;
-
+        private readonly IEmployeeService _employeeService = employeeService;
+        private readonly IClientService _clientService = clientService;
 
         public async Task<Notifies> Add(Sale sale, List<SaleProduct> saleProducts)
         {
@@ -106,7 +107,15 @@ namespace Domain.Services
 
         public async Task<IEnumerable<Sale>> GetAll()
         {
-            return await _saleRepository.GetAll();
+            var result = await _saleRepository.GetAll();
+            var resultWithDetails = new List<Sale>();
+            foreach (var sale in result)
+            {
+                sale.Client = await _clientService.GetById(sale.ClientId);
+                sale.Employee = await _employeeService.GetById(sale.EmployeeId);
+                resultWithDetails.Add(sale);
+            }
+            return resultWithDetails;
         }
 
         public async Task<IEnumerable<Sale>> GetByClient(int idClient)

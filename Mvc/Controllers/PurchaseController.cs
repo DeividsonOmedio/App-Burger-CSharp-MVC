@@ -2,6 +2,7 @@
 using Domain.Interfaces.InterfacesServices;
 using Domain.Services;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
@@ -10,6 +11,7 @@ using Mvc.Models.Enums;
 
 namespace Mvc.Controllers
 {
+    
     public class PurchaseController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -42,6 +44,7 @@ namespace Mvc.Controllers
             _saleProductService = saleProductService;
         }
 
+        [Authorize(Roles = "Client")]
         public async Task<ActionResult> Index()
         {
             if (!User.Identity.IsAuthenticated)
@@ -95,6 +98,8 @@ namespace Mvc.Controllers
             try
             {
                 client = await _clientService.GetByEmail(clientEmailClaim);
+                if (client == null)
+                    return RedirectToAction("Index", "User");
                 cart.ClientId = client.Id;
             }
             catch (Exception e)

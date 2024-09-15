@@ -14,20 +14,25 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Domain.Interfaces.InterfacesServices;
+using Mvc.Areas.Identity.Data;
 
 namespace Mvc.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<UserModel> _signInManager;
+        private readonly UserManager<UserModel> _userManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IClientService _clientService;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, UserManager<IdentityUser> userManager)
+        public LoginModel(SignInManager<UserModel> signInManager, ILogger<LoginModel> logger,
+            UserManager<UserModel> userManager, IClientService clientService)
         {
             _signInManager = signInManager;
             _logger = logger;
             _userManager = userManager;
+            _clientService = clientService;
         }
 
         /// <summary>
@@ -123,11 +128,18 @@ namespace Mvc.Areas.Identity.Pages.Account
             if (result.Succeeded)
             {
                  var roles = await _userManager.GetRolesAsync(user);
+
         
                 // Redireciona para a página de gerenciamento se o papel for Admin
                 if (roles.Contains("Admin"))
                 {
                     return RedirectToAction("Index", "Manager");
+                }
+
+                var resultEmailClient = await _clientService.GetByEmail(user.Email);
+                if (resultEmailClient == null)
+                {
+                    return RedirectToAction("Index", "User");
                 }
     
                 _logger.LogInformation("User logged in.");

@@ -6,6 +6,7 @@ using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Mvc.Areas.Identity.Data;
 using Mvc.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +26,7 @@ builder.Services.AddDbContext<ContextBase>(options =>
     options.UseSqlServer(infraConnectionString));
 
 // Adiciona suporte a roles com o Identity moderno
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>() // Adiciona suporte a roles
     .AddEntityFrameworkStores<MvcContext>();
 
@@ -80,7 +81,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+    var userManager = services.GetRequiredService<UserManager<UserModel>>();
 
     // Chame o método para criar roles
     await CreateRoles(services);
@@ -92,7 +93,7 @@ app.Run();
 async Task CreateRoles(IServiceProvider serviceProvider)
 {
     var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var userManager = serviceProvider.GetRequiredService<UserManager<UserModel>>();
 
     string[] roleNames = { "Admin", "Client" };
     IdentityResult roleResult;
@@ -106,7 +107,7 @@ async Task CreateRoles(IServiceProvider serviceProvider)
         }
     }
 
-    var powerUser = new IdentityUser
+    var powerUser = new UserModel
     {
         UserName = "admin@admin.com",
         Email = "admin@admin.com"

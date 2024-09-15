@@ -42,7 +42,14 @@
             <select class="form-control" id="address" name="SelectedAddressId">
                 @foreach (var address in Model.Addresses)
                 {
-                    <option value="@address.Id">@address.Street, @address.City - @address.State, @address.ZipCode</option>
+                    @if(address.Primary == true)
+                    {
+                        <option value="@address.Id" selected>@address.Street, @address.City - @address.State, @address.ZipCode</option>
+                    }
+                    else
+                    {
+                        <option value="@address.Id">@address.Street, @address.City - @address.State, @address.ZipCode</option>
+                    }
                 }
             </select>
         </div>

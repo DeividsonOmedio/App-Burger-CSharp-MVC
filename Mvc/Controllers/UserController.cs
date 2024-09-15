@@ -1,17 +1,20 @@
 ﻿using Domain.Interfaces.InterfacesServices;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Mvc.Areas.Identity.Data;
 using Mvc.Models;
 
 namespace Mvc.Controllers
 {
-    public class UserController(IClientService clientService, IAddressServices addressServices) : Controller
+    public class UserController(IClientService clientService, IAddressServices addressServices, UserManager<UserModel> userManager) : Controller
     {
         private readonly IClientService _clientService = clientService;
         private readonly IAddressServices _addressServices = addressServices;
+        private readonly UserManager<UserModel> _userManager = userManager;
 
         // GET: UserController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             Cadastre cadastre = new Cadastre();
 
@@ -24,7 +27,9 @@ namespace Mvc.Controllers
             var clientNameClaim = User.Identity.Name;
 
             cadastre.Email = clientEmailClaim;
-            cadastre.Name = clientNameClaim;
+
+            var nameResult = await _userManager.GetUserAsync(User);
+            cadastre.Name = nameResult.Name;
             return View(cadastre);
         }
 

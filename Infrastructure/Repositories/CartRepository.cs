@@ -11,7 +11,19 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                return await _context.Carts.Where(x => x.ClientId == clientId).ToListAsync();
+                return await _dbSet.Where(x => x.ClientId == clientId).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<Cart> GetByClientIdAndByProduct(int clientId, int productId)
+        {
+            try
+            {
+                return await _dbSet.FirstOrDefaultAsync(x => x.ClientId == clientId && x.ProductId == productId);
             }
             catch (Exception ex)
             {

@@ -60,29 +60,29 @@ namespace Mvc.Controllers
         }
 
         //receber o id do produto e quantidade
-        public async Task<IActionResult> AddToCart(int id, int amount)
-        {
-            Dictionary<int, int> Cart = new Dictionary<int, int>();// id do produto e quantidade
+        //public async Task<IActionResult> AddToCart(int id, int amount)
+        //{
+        //    Dictionary<int, int> Cart = new Dictionary<int, int>();// id do produto e quantidade
 
-            var product = await _productService.GetById(id);
+        //    var product = await _productService.GetById(id);
 
-            //verificar se o produto existe
-            if (product == null)
-            {
-                return NotFound();
-            }
+        //    //verificar se o produto existe
+        //    if (product == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            //verificar se a quantidade é maior que zero
-            if (amount <= 0)
-            {
-                return BadRequest();
-            }
+        //    //verificar se a quantidade é maior que zero
+        //    if (amount <= 0)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            //adicionar o produto ao carrinho
-            Cart.Add(product.Id, amount);
+        //    //adicionar o produto ao carrinho
+        //    Cart.Add(product.Id, amount);
 
-            return RedirectToAction("Index");
-        }
+        //    return RedirectToAction("Index");
+        //}
 
 
         public IActionResult Privacy()

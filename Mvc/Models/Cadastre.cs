@@ -13,6 +13,7 @@
         public string City { get; set; }
         public string State { get; set; }
         public string ZipCode { get; set; }
+        public bool Primary { get; set; }
         public int ClientId { get; set; }
         public Client Client { get; set; }
     }

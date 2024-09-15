@@ -48,6 +48,11 @@ namespace Domain.Services
             return await _addressRepository.GetAll();
         }
 
+        public Task<List<Address>> GetByClientId(int clientId)
+        {
+            return _addressRepository.GetByClientId(clientId);
+        }
+
         public async Task<Address> GetById(int id)
         {
             return await _addressRepository.GetById(id);
@@ -55,7 +60,7 @@ namespace Domain.Services
 
         public async Task<Notifies> Update(Address address)
         {
-            throw new NotImplementedException();
+            return await _addressRepository.Update(address);
         }
     }
 }

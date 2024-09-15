@@ -2,8 +2,8 @@
 {
     public enum EnumStatusPayment
     {
-        pendent = 0,
-        paid = 1,
-        canceled = 2
+        pendente = 0,
+        pago = 1,
+        cancelado = 2
     }
 }

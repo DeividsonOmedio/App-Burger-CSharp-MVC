@@ -1,5 +1,122 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Mvc.Models.Enums
+@model Checkout
+
 @{
+    ViewData["Title"] = "Finalizar Compra";
 }
+
+<div class="container mt-5">
+    <h2 class="mb-4">@ViewData["Title"]</h2>
+
+    <!-- Resumo do Carrinho -->
+    <h4>Itens do Carrinho</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Preço Unitário</th>
+                <th>Quantidade</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CartItems)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>R$ @item.ProductPrice.ToString("F2")</td>
+                    <td>@item.Amount</td>
+                    <td>R$ @item.TotalPrice.ToString("F2")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4>Valor Total: <strong>R$ @Model.CartItems.Sum(i => i.TotalPrice).ToString("F2")</strong></h4>
+
+    <!-- Seleção de Endereço -->
+    <h4>Endereço de Entrega</h4>
+    <form asp-action="ConfirmCheckout" method="post">
+        <div class="form-group">
+            <label for="address">Selecione um endereço cadastrado:</label>
+            <select class="form-control" id="address" name="SelectedAddressId">
+                @foreach (var address in Model.Addresses)
+                {
+                    <option value="@address.Id">@address.Street, @address.City - @address.State, @address.ZipCode</option>
+                }
+            </select>
+        </div>
+
+
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        <h5>Ou insira um novo endereço:</h5>
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="newStreet">Rua</label>
+                                <input type="text" class="form-control" id="newStreet" name="NewStreet" placeholder="Rua">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="newStreet">Número</label>
+                                <input type="number" class="form-control" id="newStreet" name="NewNumber" placeholder="Número">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="newStreet">Ponto de Referencia</label>
+                                <input type="text" class="form-control" id="newStreet" name="NewReferency" placeholder="Ponto de Referencia">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="newCity">Cidade</label>
+                                <input type="text" class="form-control" id="newCity" name="NewCity" placeholder="Cidade">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="newState">Estado</label>
+                                <input type="text" class="form-control" id="newState" name="NewState" placeholder="Estado">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <l for="newState">Marcar como endereço Principal?</label>
+                                    <input type="checkbox" class="form-control" id="newPrimary" name="newPrimary">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="newZipCode">CEP</label>
+                                <input type="text" class="form-control" id="newZipCode" name="NewZipCode" placeholder="CEP">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+
+
+       
+
+        <!-- Opções de Pagamento -->
+        <h4>Forma de Pagamento</h4>
+        <div class="form-group">
+            <label>Selecione a forma de pagamento:</label>
+            <div class="form-check">
+                <select name="PaymentMethod">
+                    @foreach (var item in Enum.GetValues(typeof(EnumTypePayment)))
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+
+            </div>
+        </div>
+
+        <!-- Botão de Confirmação -->
+        <button type="submit" class="btn btn-primary mt-3">Confirmar Compra</button>
+    </form>
+</div>

@@ -2,8 +2,8 @@
 {
     public enum EnumFunctionEmployee
     {
-        general = 0,
-        cashier = 1,
-        administrator = 2
+        geral = 0,
+        caixa = 1,
+        administrador = 2
     }
 }

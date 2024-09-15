@@ -15,6 +15,7 @@
                     <th scope="col">Telefone</th>
                     <th scope="col">Status Pedido</th>
                     <th scope="col">Status Pagamento</th>
+                    <th scope="col">Tipo Pagamento</th>
                     <th scope="col">Produtos</th>
                     <th scope="col">Total</th>
                     <th scope="col">Ações</th>
@@ -49,6 +50,11 @@
                             <span class="badge bg-warning">@item.StatusPayment</span>
                         </td>
 
+                        <!-- Coluna Tipo Pagamento -->
+                        <td class="align-middle">
+                            <span class="badge bg-light text-dark">@item.TypePayment</span>
+                        </td>
+
                         <!-- Coluna Produtos -->
                         <td class="align-middle">
                             <ul class="list-inline">
@@ -69,14 +75,44 @@
                             <div class="d-flex flex-column gap-2">
                                 <!-- Form para mudar status do pedido -->
                                 <form asp-controller="Manager" asp-action="ChangeStatusSale" method="post">
-                                    <input type="hidden" name="Sale" value="@item.Id" />
-                                    <button type="submit" class="btn btn-sm btn-primary">Mudar Status Pedido</button>
+                                    <input type="hidden" name="SaleId" value="@item.Id" />
+                                    <select name="StatusSale" class="form-select mb-2">
+                                        @foreach (Mvc.Models.Enums.EnumStatusSale status in Enum.GetValues(typeof(Mvc.Models.Enums.EnumStatusSale)))
+                                        {
+                                            <option value="@status">
+                                                @status
+                                            </option>
+                                        }
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-primary">Atualizar Status Pedido</button>
                                 </form>
 
                                 <!-- Form para mudar status do pagamento -->
                                 <form asp-controller="Manager" asp-action="ChangeStatusPayment" method="post">
-                                    <input type="hidden" name="Sale" value="@item.Id" />
-                                    <button type="submit" class="btn btn-sm btn-secondary">Mudar Status Pagamento</button>
+                                    <input type="hidden" name="SaleId" value="@item.Id" />
+                                    <select name="StatusPayment" class="form-select mb-2">
+                                        @foreach (Mvc.Models.Enums.EnumStatusPayment paymentStatus in Enum.GetValues(typeof(Mvc.Models.Enums.EnumStatusPayment)))
+                                        {
+                                            <option value="@paymentStatus">
+                                                @paymentStatus
+                                            </option>
+                                        }
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-secondary">Atualizar Status Pagamento</button>
+                                </form>
+
+                                <!-- Form para mudar tipo do pagamento -->
+                                <form asp-controller="Manager" asp-action="ChangeTypePayment" method="post">
+                                    <input type="hidden" name="SaleId" value="@item.Id" />
+                                    <select name="TypePayment" class="form-select mb-2">
+                                        @foreach (Mvc.Models.Enums.EnumTypePayment typePayment in Enum.GetValues(typeof(Mvc.Models.Enums.EnumTypePayment)))
+                                        {
+                                            <option value="@typePayment">
+                                                @typePayment
+                                            </option>
+                                        }
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-secondary">Atualizar Tipo Pagamento</button>
                                 </form>
                             </div>
                         </td>

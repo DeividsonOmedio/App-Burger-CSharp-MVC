@@ -66,5 +66,10 @@ namespace Domain.Services
             
             return result;
         }
+
+        public Task<Cart> GetByClientIdAndByProduct(int clientId, int productId)
+        {
+            return _cartRepository.GetByClientIdAndByProduct(clientId, productId);
+        }
     }
 }

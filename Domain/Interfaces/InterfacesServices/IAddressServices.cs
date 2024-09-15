@@ -9,6 +9,7 @@ namespace Domain.Interfaces.InterfacesServices
         Task<Notifies> Update(Address address);
         Task<Notifies> Delete(int id);
         Task<Address> GetById(int id);
+        Task<List<Address>> GetByClientId(int clientId);
         Task<List<Address>> GetAll();
     }
 }

@@ -19,6 +19,47 @@
                 </button>
                 
             </div>
+            <div>
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <div class="btn-group">
+                        <!-- Pedidos Dropdown -->
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownPedidos" data-bs-toggle="dropdown" aria-expanded="false">
+                                Pedidos
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownPedidos">
+                                <li><a class="dropdown-item" asp-controller="Orders" asp-action="Pending">Pendente</a></li>
+                                <li><a class="dropdown-item" asp-controller="Orders" asp-action="Delivering">Entregando</a></li>
+                                <li><a class="dropdown-item" asp-controller="Orders" asp-action="Delivered">Entregue</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Produtos Dropdown -->
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownProdutos" data-bs-toggle="dropdown" aria-expanded="false">
+                                Produtos
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownProdutos">
+                                <li><a class="dropdown-item" asp-controller="Product" asp-action="Index">Ver Produtos</a></li>
+                                <li><a class="dropdown-item" asp-controller="Product" asp-action="Create">Adicionar Produto</a></li>
+                                <li><a class="dropdown-item" asp-controller="Product" asp-action="Manage">Gerenciar Produtos</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Clientes Dropdown -->
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownClientes" data-bs-toggle="dropdown" aria-expanded="false">
+                                Clientes
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownClientes">
+                                <li><a class="dropdown-item" asp-controller="Client" asp-action="Index">Lista de Clientes</a></li>
+                                <li><a class="dropdown-item" asp-controller="Client" asp-action="Create">Adicionar Cliente</a></li>
+                            </ul>
+                        </div>
+                </div>
+                }
+            </div>
             <span class="mx-3">
                 @Html.Partial("_LoginPartial")
             </span>

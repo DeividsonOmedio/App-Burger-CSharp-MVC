@@ -110,7 +110,8 @@ async Task CreateRoles(IServiceProvider serviceProvider)
     var powerUser = new UserModel
     {
         UserName = "admin@admin.com",
-        Email = "admin@admin.com"
+        Email = "admin@admin.com",
+        Name = "Admin"
     };
 
     string adminPassword = "Admin@123";

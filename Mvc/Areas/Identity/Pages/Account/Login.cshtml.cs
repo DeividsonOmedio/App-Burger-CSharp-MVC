@@ -67,12 +67,7 @@ namespace Mvc.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            [Required]
-            public string Name { get; set; }
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+
             [Required]
             [EmailAddress]
             public string Email { get; set; }
@@ -121,15 +116,19 @@ namespace Mvc.Areas.Identity.Pages.Account
                 ModelState.AddModelError(string.Empty, "User Not Found.");
                 return Page();
             }
-           
+
             // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-            var result = await _signInManager.PasswordSignInAsync(user.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+            // To enable password failures to trigger account lockout, set lockoutOnFailure: truetry{
+            try
+            {
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
+
             if (result.Succeeded)
             {
-                 var roles = await _userManager.GetRolesAsync(user);
+                var roles = await _userManager.GetRolesAsync(user);
 
-        
+
                 // Redireciona para a página de gerenciamento se o papel for Admin
                 if (roles.Contains("Admin"))
                 {
@@ -141,7 +140,7 @@ namespace Mvc.Areas.Identity.Pages.Account
                 {
                     return RedirectToAction("Index", "User");
                 }
-    
+
                 _logger.LogInformation("User logged in.");
                 return LocalRedirect(returnUrl);
             }
@@ -159,9 +158,15 @@ namespace Mvc.Areas.Identity.Pages.Account
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 return Page();
             }
-            
+
             // If we got this far, something failed, redisplay form
             return Page();
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt." + ex.Message);
+                return Page();
+            }
         }
     }
 }

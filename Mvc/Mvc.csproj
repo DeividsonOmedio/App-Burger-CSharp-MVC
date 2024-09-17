@@ -8,10 +8,12 @@
 
   <ItemGroup>
     <None Remove="Views\Home\Index.cshtml.css" />
+    <None Remove="Views\Manager\Index.cshtml.css" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Views\Home\Index.cshtml.css" />
+    <Content Include="Views\Manager\Index.cshtml.css" />
   </ItemGroup>
 
   <ItemGroup>

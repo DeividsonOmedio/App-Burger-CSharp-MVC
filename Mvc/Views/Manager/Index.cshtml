@@ -19,6 +19,8 @@
                     <th scope="col">Produtos</th>
                     <th scope="col">Total</th>
                     <th scope="col">Ações</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -72,11 +74,11 @@
 
                         <!-- Coluna Ações -->
                         <td class="align-middle">
-                            <div class="d-flex flex-column gap-2">
+                            <div class="d-flex gap-2">
                                 <!-- Form para mudar status do pedido -->
                                 <form asp-controller="Manager" asp-action="ChangeStatusSale" method="post">
                                     <input type="hidden" name="SaleId" value="@item.Id" />
-                                    <select name="StatusSale" class="form-select mb-2">
+                                    <select name="StatusSale" class="form-select mb-2 w-100">
                                         @foreach (Mvc.Models.Enums.EnumStatusSale status in Enum.GetValues(typeof(Mvc.Models.Enums.EnumStatusSale)))
                                         {
                                             <option value="@status">
@@ -90,7 +92,7 @@
                                 <!-- Form para mudar status do pagamento -->
                                 <form asp-controller="Manager" asp-action="ChangeStatusPayment" method="post">
                                     <input type="hidden" name="SaleId" value="@item.Id" />
-                                    <select name="StatusPayment" class="form-select mb-2">
+                                    <select name="StatusPayment" class="form-select mb-2 w-100">
                                         @foreach (Mvc.Models.Enums.EnumStatusPayment paymentStatus in Enum.GetValues(typeof(Mvc.Models.Enums.EnumStatusPayment)))
                                         {
                                             <option value="@paymentStatus">
@@ -104,7 +106,7 @@
                                 <!-- Form para mudar tipo do pagamento -->
                                 <form asp-controller="Manager" asp-action="ChangeTypePayment" method="post">
                                     <input type="hidden" name="SaleId" value="@item.Id" />
-                                    <select name="TypePayment" class="form-select mb-2">
+                                    <select name="TypePayment" class="form-select mb-2 w-100">
                                         @foreach (Mvc.Models.Enums.EnumTypePayment typePayment in Enum.GetValues(typeof(Mvc.Models.Enums.EnumTypePayment)))
                                         {
                                             <option value="@typePayment">

@@ -5,11 +5,19 @@ using Infrastructure.Configuration;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Mvc.Areas.Identity.Data;
 using Mvc.Data;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var cultureInfo = new CultureInfo("pt-BR");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
+
 
 var mvcConnectionString = builder.Configuration.GetConnectionString("MvcContextConnection")
     ?? throw new InvalidOperationException("Connection string 'MvcContextConnection' not found.");
@@ -56,6 +64,13 @@ builder.Services.AddScoped<ISaleService, SaleService>();
 builder.Services.AddScoped<ISaleProductService, SaleProductService>();
 
 var app = builder.Build();
+
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(cultureInfo),
+    SupportedCultures = new[] { cultureInfo },
+    SupportedUICultures = new[] { cultureInfo }
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

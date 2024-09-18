@@ -29,9 +29,11 @@
                                 Pedidos
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownPedidos">
-                                <li><a class="dropdown-item" asp-controller="Orders" asp-action="Pending">Pendente</a></li>
-                                <li><a class="dropdown-item" asp-controller="Orders" asp-action="Delivering">Entregando</a></li>
-                                <li><a class="dropdown-item" asp-controller="Orders" asp-action="Delivered">Entregue</a></li>
+                                <li><a class="dropdown-item" asp-controller="Manager" asp-action="Index">Pendente</a></li>
+                                <li><a class="dropdown-item" asp-controller="Manager" asp-action="Delivering">Entregando</a></li>
+                                <li><a class="dropdown-item" asp-controller="Manager" asp-action="Unpaid">Não Pago</a></li>
+                                <li><a class="dropdown-item" asp-controller="Manager" asp-action="Terminated">Finalizado</a></li>
+                                <li><a class="dropdown-item" asp-controller="Manager" asp-action="All">Todos</a></li>
                             </ul>
                         </div>
 
@@ -43,7 +45,6 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownProdutos">
                                 <li><a class="dropdown-item" asp-controller="Product" asp-action="Index">Ver Produtos</a></li>
                                 <li><a class="dropdown-item" asp-controller="Product" asp-action="Create">Adicionar Produto</a></li>
-                                <li><a class="dropdown-item" asp-controller="Product" asp-action="Manage">Gerenciar Produtos</a></li>
                             </ul>
                         </div>
 

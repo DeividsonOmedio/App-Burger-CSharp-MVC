@@ -68,18 +68,6 @@ namespace Mvc.Controllers
 
             return View(cartViewModel);
 
-
-
-        }
-
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        public ActionResult Create()
-        {
-            return View();
         }
 
         [HttpPost]

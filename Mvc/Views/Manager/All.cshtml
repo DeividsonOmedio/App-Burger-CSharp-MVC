@@ -26,9 +26,6 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    @if (item.StatusSale != Mvc.Models.Enums.EnumStatusSale.entregue || item.StatusPayment != Mvc.Models.Enums.EnumStatusPayment.pago && item.StatusSale != Mvc.Models.Enums.EnumStatusSale.cancelado)
-                    {
-
                         <tr>
                             <!-- Coluna ID -->
                             <td class="align-middle">
@@ -122,7 +119,6 @@
                                 </div>
                             </td>
                         </tr>
-                    }
                 }
             </tbody>
         </table>

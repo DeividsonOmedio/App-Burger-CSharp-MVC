@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Sale>
 @{
-    ViewBag.Title = "Dashboard";
+    ViewBag.Title = "Finalizados";
 }
+
 
 <div class="container">
     <h2 class="my-4 text-center">Pedidos</h2>
@@ -26,7 +27,7 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    @if (item.StatusSale != Mvc.Models.Enums.EnumStatusSale.entregue || item.StatusPayment != Mvc.Models.Enums.EnumStatusPayment.pago && item.StatusSale != Mvc.Models.Enums.EnumStatusSale.cancelado)
+                    @if (item.StatusSale == Mvc.Models.Enums.EnumStatusSale.entregue && item.StatusPayment == Mvc.Models.Enums.EnumStatusPayment.pago)
                     {
 
                         <tr>

@@ -20,38 +20,39 @@ namespace Mvc.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
-            var result = await _saleService.GetAll();
+            var saleProductsViewModel = await GetAll();
 
-            var saleProductsViewModel = new List<Models.Sale>();
+            return View(saleProductsViewModel);
+        }
 
-            foreach (var sale in result)
-            {
-                var saleViewModel = new Models.Sale
-                {
-                    Id = sale.Id,
-                    SaleDate = sale.SaleDate,
-                    ClientId = sale.ClientId,
-                    ClientName = sale.Client.Name,
-                    PhoneNumber = sale.Client.PhoneNumber,
-                    TotalValue = sale.TotalValue,
-                    TypePayment = (Models.Enums.EnumTypePayment)sale.TypePayment,
-                    StatusSale = (Models.Enums.EnumStatusSale)sale.StatusSale,
-                    StatusPayment = (Models.Enums.EnumStatusPayment)sale.StatusPayment,
-                    Discount = sale.Discount,
-                    EmployeeId = sale.EmployeeId,
-                    EmployeeName = sale.Employee.Name,
-                    SaleProductsName = new List<string>()
-                };
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> All()
+        {
+            var saleProductsViewModel = await GetAll();
 
-                var resultProducts = await _saleProductService.GetBySale(sale.Id);
+            return View(saleProductsViewModel);
+        }
 
-                foreach (var saleProduct in resultProducts)
-                {
-                    saleViewModel.SaleProductsName.Add(saleProduct.Product.Name);
-                }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delivering()
+        {
+            var saleProductsViewModel = await GetAll();
 
-                saleProductsViewModel.Add(saleViewModel);
-            }
+            return View(saleProductsViewModel);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Unpaid()
+        {
+            var saleProductsViewModel = await GetAll();
+
+            return View(saleProductsViewModel);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Terminated()
+        {
+            var saleProductsViewModel = await GetAll();
 
             return View(saleProductsViewModel);
         }
@@ -99,6 +100,43 @@ namespace Mvc.Controllers
             var response = await _saleService.Update(result, new List<SaleProduct>());
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<List<Models.Sale>> GetAll()
+        {
+            var result = await _saleService.GetAll();
+
+            var saleProductsViewModel = new List<Models.Sale>();
+
+            foreach (var sale in result)
+            {
+                var saleViewModel = new Models.Sale
+                {
+                    Id = sale.Id,
+                    SaleDate = sale.SaleDate,
+                    ClientId = sale.ClientId,
+                    ClientName = sale.Client.Name,
+                    PhoneNumber = sale.Client.PhoneNumber,
+                    TotalValue = sale.TotalValue,
+                    TypePayment = (Models.Enums.EnumTypePayment)sale.TypePayment,
+                    StatusSale = (Models.Enums.EnumStatusSale)sale.StatusSale,
+                    StatusPayment = (Models.Enums.EnumStatusPayment)sale.StatusPayment,
+                    Discount = sale.Discount,
+                    EmployeeId = sale.EmployeeId,
+                    EmployeeName = sale.Employee.Name,
+                    SaleProductsName = new List<string>()
+                };
+
+                var resultProducts = await _saleProductService.GetBySale(sale.Id);
+
+                foreach (var saleProduct in resultProducts)
+                {
+                    saleViewModel.SaleProductsName.Add(saleProduct.Product.Name);
+                }
+
+                saleProductsViewModel.Add(saleViewModel);
+            }
+            return saleProductsViewModel;
         }
     }
 }

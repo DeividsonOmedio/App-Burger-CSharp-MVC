@@ -6,11 +6,11 @@ using Mvc.Models;
 
 namespace Mvc.Controllers
 {
-    public class ProductController(IProductService productService, IIngredientsService ingredientsService) : Controller
+    public class ProductController(IProductService productService, IIngredientsService ingredientsService, IMaterialService materialService) : Controller
     {
         private readonly IProductService _productService = productService;
         private readonly IIngredientsService _ingredientsService = ingredientsService;
-
+        private readonly IMaterialService _materialService = materialService;
 
         [Authorize(Roles ="Admin")]
         public async Task<ActionResult> Index()
@@ -35,7 +35,7 @@ namespace Mvc.Controllers
 
                 foreach (var ingredient in ingredients)
                 {
-                    productViewModel.Ingredients.Add(ingredient);
+                    productViewModel.Ingredients.Add(ingredient.Key);
                 }
 
                 listProductViewModel.Add(productViewModel);
@@ -52,9 +52,8 @@ namespace Mvc.Controllers
         }
 
         // GET: ProductController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            
             return View();
         }
 
@@ -83,7 +82,9 @@ namespace Mvc.Controllers
                     };
 
                     var result = await _productService.Add(product);
-                    return RedirectToAction(nameof(Index));
+
+                    return RedirectToAction("AddIngredients", "Ingredients", new { productId = product.Id });
+                
                 }
                 return View(productModel);
             }

@@ -9,7 +9,7 @@ namespace Domain.Entities
     {
         [Required]
         [MaxLength(20)]
-        public string User { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
 
         [Required]
         [MinLength(6)]

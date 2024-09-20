@@ -50,7 +50,7 @@ namespace Mvc.Controllers
                 
                 foreach (var ingredient in ingredients)
                 {
-                    productViewModel.Ingredients.Add(ingredient);
+                    productViewModel.Ingredients.Add(ingredient.Key);
                 }
 
                 listProductViewModel.Add(productViewModel);

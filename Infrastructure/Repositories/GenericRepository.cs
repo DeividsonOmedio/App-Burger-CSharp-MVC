@@ -29,7 +29,7 @@ namespace Infrastructure.Repositories
             try
             {
                 _dbSet.Update(obj);
-                await _context.SaveChangesAsync();
+                var result = await _context.SaveChangesAsync();
                 return Notifies.Success("Atualizado com sucesso!");
             }
             catch (Exception e)

@@ -76,8 +76,8 @@ namespace Infrastructure.Configuration
 
             // Seed data para Employees
             modelBuilder.Entity<Employee>().HasData(
-                new Employee { Id = 1, Name = "Employee 1", User = "Admin", Function = EnumFunctionEmployee.administrador, Password = "Dev@123" },
-                new Employee { Id = 2, Name = "Employee 2", User = "Dev", Function = EnumFunctionEmployee.geral, Password = "Dev@123" }
+                new Employee { Id = 1, Name = "Admin", Email = "admin@admin.com", Function = EnumFunctionEmployee.administrador, Password = "Dev@123" },
+                new Employee { Id = 2, Name = "Dev", Email = "dev@dev.com", Function = EnumFunctionEmployee.geral, Password = "Dev@123" }
             );
 
             // Seed data para Sales

@@ -15,6 +15,10 @@ namespace Domain.Services
             if (ingredients == null)
                 return Notifies.Error("Ingrediente inválido");
 
+            var result =  await _ingredientsRepository.GetByProductId(ingredients.ProductId);
+            if (result.Any(e => e.MaterialId == ingredients.MaterialId))
+                return Notifies.Error("Este material já foi adicionado ao produto.");
+
             return await _ingredientsRepository.Add(ingredients);
         }
 
@@ -46,25 +50,32 @@ namespace Domain.Services
                 return Notifies.Error("Ingrediente inválido");
 
             var result = await _ingredientsRepository.GetById(ingredients.Id);
-
             if (result == null)
                 return Notifies.Error("Ingrediente não encontrado");
+
+            result.Amount = ingredients.Amount;
 
             return await _ingredientsRepository.Update(result);
         }
 
-        public async Task<IEnumerable<string>> GetMaterialsByProductId(int productId)
+        //GetByMaterialIdByProductId
+        public async Task<Ingredients> GetByMaterialIdByProductId(int materialId, int productId)
+        {
+            return await _ingredientsRepository.GetByMaterialIdByProductId(materialId, productId);
+        }
+
+        public async Task<Dictionary<string, decimal>> GetMaterialsByProductId(int productId)
         {
             var ingredients = await GetByProductId(productId);
-            var materials = new List<string>();
+            var materialDictionary = new Dictionary<string, decimal>();
 
             foreach (var ingredient in ingredients)
             {
                 var material = await _materialRepository.GetById(ingredient.MaterialId);
-                materials.Add(material.Name);
+                materialDictionary.Add(material.Name, ingredient.Amount);
             }
-
-            return materials;
+                
+            return materialDictionary;
         }
     }
 }

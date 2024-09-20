@@ -1,0 +1,36 @@
+﻿@model Material
+
+@{
+    ViewBag.Title = "Editar Material";
+}
+
+<h2>Editar Material</h2>
+
+<form asp-action="Edit" method="post">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="Name">Material</label>
+                <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name" required>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="Amount">Quantidade</label>
+                <input type="text" class="form-control" id="Amount" name="Amount" value="@Model.Amount" required>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="PurchasePrice">Valor</label>
+                <input type="text" step="0.01" class="form-control" id="PurchasePrice" name="PurchasePrice" value="@Model.PurchasePrice" required>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </div>
+</form>

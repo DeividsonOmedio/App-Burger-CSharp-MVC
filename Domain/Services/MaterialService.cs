@@ -56,6 +56,12 @@ namespace Domain.Services
             return await _materialRepository.GetByPurchasePrice(purchasePrice);
         }
 
+        // getByName
+        public async Task<Material> GetByName(string name)
+        {
+            return await _materialRepository.GetByName(name);
+        }
+
         public async Task<Notifies> Update(Material material)
         {
             if (material == null)
@@ -65,6 +71,11 @@ namespace Domain.Services
 
             if (result == null)
                 return Notifies.Error("Material não encontrado");
+
+            result.Name = material.Name;
+            result.Amount = material.Amount;
+            result.MinimumQuantity = material.MinimumQuantity;
+            result.PurchasePrice = material.PurchasePrice;
 
             return await _materialRepository.Update(result);
         }

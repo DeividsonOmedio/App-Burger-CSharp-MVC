@@ -23,5 +23,10 @@ namespace Infrastructure.Repositories
             return await _dbSet.Where(x => x.PurchasePrice == purchasePrice).ToListAsync();
         }
 
+        public async Task<Material> GetByName(string name)
+        {
+            return await _dbSet.FirstOrDefaultAsync(x => x.Name == name);
+        }
+
     }
 }

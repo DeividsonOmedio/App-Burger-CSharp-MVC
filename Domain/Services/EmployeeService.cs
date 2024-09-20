@@ -47,12 +47,12 @@ namespace Domain.Services
             return await _employeeRepository.GetById(id);
         }
 
-        public async Task<Employee> GetByUser(string user)
+        public async Task<Employee> GetByEmail(string email)
         {
-            if (string.IsNullOrEmpty(user))
+            if (string.IsNullOrEmpty(email))
                 return null;
 
-            return await _employeeRepository.GetByUser(user);
+            return await _employeeRepository.GetByEmail(email);
         }
 
         public async Task<Notifies> Update(Employee empoyee)
@@ -63,6 +63,9 @@ namespace Domain.Services
             var result = await _employeeRepository.GetById(empoyee.Id);
             if (result == null)
                 return Notifies.Error("Funcionário não encontrado");
+
+            result.Name = empoyee.Name;
+            result.Function = empoyee.Function;
 
             return await _employeeRepository.Update(result);
         }

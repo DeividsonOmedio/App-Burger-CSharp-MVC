@@ -20,13 +20,15 @@
                     <!-- Alinhando os detalhes no centro vertical -->
                     <td class="align-middle w-50">
                         <div>
-                            <h5 class="card-title text-uppercase font-weight-bold fs-5">@item.Name</h5>
+                            <a asp-controller="Ingredients" asp-action="AddIngredients" asp-route-id="@item.Id" class="btn btn-link text-decoration-none">
+                                <h5 class="card-title text-uppercase font-weight-bold fs-5">@item.Name</h5>
+                            </a>
                         </div>
                         <div>
                             <ul class="list-inline p-2">
                                 @foreach (var item2 in item.Ingredients)
                                 {
-                                    <li class="list-inline-item badge badge-light">@item2</li>
+                                    <li class="list-inline-item badge badge-dark text-dark" data-tooltip="Clique para editar a lista de abaixo">@item2</li>
                                 }
                             </ul>
                         </div>

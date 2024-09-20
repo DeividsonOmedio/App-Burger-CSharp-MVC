@@ -3,11 +3,16 @@
     public class Ingredients // ingredientes de cada produto
     {
         public int ProductId { get; set; }
-        public Product Product { get; set; } = null!;
-
+        public string NameProduct { get; set; } = null!;
+        public int? AmountProduct { get; set; }
+        public decimal PriceProduct { get; set; }
+        public Dictionary<string, decimal>? MaterialsProducts { get; set; }
         public int MaterialId { get; set; }
-        public Material Material { get; set; } = null!;
-        
-        public decimal Amount { get; set; }
+        public List<Material> Materials { get; set; }
+
+        public decimal AmountMaterisal { get; set; }
+
+        public decimal MinimumQuantity { get; set; }
+        public decimal PurchasePrice { get; set; }
     }
 }

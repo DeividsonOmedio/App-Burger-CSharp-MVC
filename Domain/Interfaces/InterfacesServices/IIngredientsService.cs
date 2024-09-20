@@ -7,7 +7,8 @@ namespace Domain.Interfaces.InterfacesServices
     {
         Task<IEnumerable<Ingredients>> GetByProductId(int productId);
         Task<IEnumerable<Ingredients>> GetByMaterialId(int materialId);
-        Task<IEnumerable<string>> GetMaterialsByProductId(int productId);
+        Task<Ingredients> GetByMaterialIdByProductId(int materialId, int productId);
+        Task<Dictionary<string, decimal>> GetMaterialsByProductId(int productId);
         Task<Notifies> Add(Ingredients ingredients);
         Task<Notifies> Update(Ingredients ingredients);
         Task<Notifies> Delete(int id);

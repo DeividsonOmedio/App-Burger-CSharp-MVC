@@ -20,16 +20,31 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<Ingredients>> GetByProductId(int productId)
+        public async Task<Ingredients> GetByMaterialIdByProductId(int materialId, int productId)
         {
             try
             {
-                return await _dbSet.Where(x => x.ProductId == productId).ToListAsync();
+                return await _dbSet.FirstOrDefaultAsync(x => x.MaterialId == materialId && x.ProductId == productId);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
+
+        public async Task<IEnumerable<Ingredients>> GetByProductId(int productId)
+        {
+            try
+            {
+                var result = await _dbSet.Where(x => x.ProductId == productId).ToListAsync();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
     }
 }

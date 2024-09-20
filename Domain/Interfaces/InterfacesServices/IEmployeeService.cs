@@ -8,7 +8,7 @@ namespace Domain.Interfaces.InterfacesServices
     {
         Task<IEnumerable<Employee>> GetAll();
         Task<Employee> GetById(int id);
-        Task<Employee> GetByUser(string user);
+        Task<Employee> GetByEmail(string email);
         Task<List<Employee>> GetByFunction(EnumFunctionEmployee function);
         Task<Notifies> Add(Employee employee);
         Task<Notifies> Update(Employee empoyee);

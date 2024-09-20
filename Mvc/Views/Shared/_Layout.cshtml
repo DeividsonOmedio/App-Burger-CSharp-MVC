@@ -39,7 +39,7 @@
 
                         <!-- Produtos Dropdown -->
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownProdutos" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownProducts" data-bs-toggle="dropdown" aria-expanded="false">
                                 Produtos
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownProdutos">
@@ -48,14 +48,25 @@
                             </ul>
                         </div>
 
+                        <!-- Materiais Dropdown -->
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownProducts" data-bs-toggle="dropdown" aria-expanded="false">
+                                Materiais
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownProdutos">
+                                <li><a class="dropdown-item" asp-controller="Material" asp-action="Index">Ver Materiais</a></li>
+                                <li><a class="dropdown-item" asp-controller="Material" asp-action="Create">Adicionar Material</a></li>
+                            </ul>
+                        </div>
+
                         <!-- Clientes Dropdown -->
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownClientes" data-bs-toggle="dropdown" aria-expanded="false">
-                                Clientes
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownEmplyees" data-bs-toggle="dropdown" aria-expanded="false">
+                                Funcionários
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownClientes">
-                                <li><a class="dropdown-item" asp-controller="Client" asp-action="Index">Lista de Clientes</a></li>
-                                <li><a class="dropdown-item" asp-controller="Client" asp-action="Create">Adicionar Cliente</a></li>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownEmplyees">
+                                <li><a class="dropdown-item" asp-controller="Employee" asp-action="Index">Lista de Funcionários</a></li>
+                                <li><a class="dropdown-item" asp-controller="Employee" asp-action="Create">Adicionar Funcionário</a></li>
                             </ul>
                         </div>
                 </div>

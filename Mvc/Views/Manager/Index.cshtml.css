@@ -1,0 +1,6 @@
+﻿.select {
+    width: fit-content;
+}
+.container{
+    max-width: 95vw !important;
+}

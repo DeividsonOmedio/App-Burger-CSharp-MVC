@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\Home\Index.cshtml.css" />
+    <None Remove="Views\Manager\Index - Cópia.cshtml.css" />
+    <None Remove="Views\Manager\Index.cshtml.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml.css" />
+    <Content Include="Views\Manager\Index.cshtml.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
@@ -25,6 +36,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\ham.jpeg" />
   </ItemGroup>
 
 </Project>

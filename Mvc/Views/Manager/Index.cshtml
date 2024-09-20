@@ -1,5 +1,130 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<Sale>
 @{
+    ViewBag.Title = "Dashboard";
 }
+
+<div class="container">
+    <h2 class="my-4 text-center">Pedidos</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Telefone</th>
+                    <th scope="col">Status Pedido</th>
+                    <th scope="col">Status Pagamento</th>
+                    <th scope="col">Tipo Pagamento</th>
+                    <th scope="col">Produtos</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Ações</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    @if (item.StatusSale != Mvc.Models.Enums.EnumStatusSale.entregue || item.StatusPayment != Mvc.Models.Enums.EnumStatusPayment.pago && item.StatusSale != Mvc.Models.Enums.EnumStatusSale.cancelado)
+                    {
+
+                        <tr>
+                            <!-- Coluna ID -->
+                            <td class="align-middle">
+                                <h5 class="font-weight-bold fs-6">@item.Id</h5>
+                            </td>
+
+                            <!-- Coluna Cliente -->
+                            <td class="align-middle">
+                                <h6 class="text-uppercase font-weight-bold">@item.ClientName</h6>
+                            </td>
+
+                            <!-- Coluna Telefone -->
+                            <td class="align-middle">
+                                <h6>@item.PhoneNumber</h6>
+                            </td>
+
+                            <!-- Coluna Status Pedido -->
+                            <td class="align-middle">
+                                <span class="badge bg-info">@item.StatusSale</span>
+                            </td>
+
+                            <!-- Coluna Status Pagamento -->
+                            <td class="align-middle">
+                                <span class="badge bg-warning">@item.StatusPayment</span>
+                            </td>
+
+                            <!-- Coluna Tipo Pagamento -->
+                            <td class="align-middle">
+                                <span class="badge bg-light text-dark">@item.TypePayment</span>
+                            </td>
+
+                            <!-- Coluna Produtos -->
+                            <td class="align-middle">
+                                <ul class="list-inline">
+                                    @foreach (var product in item.SaleProductsName)
+                                    {
+                                        <li class="list-inline-item badge bg-light text-dark">@product</li>
+                                    }
+                                </ul>
+                            </td>
+
+                            <!-- Coluna Total -->
+                            <td class="align-middle text-end">
+                                <span class="text-muted font-weight-bold">R$ @item.TotalValue.ToString("F2")</span>
+                            </td>
+
+                            <!-- Coluna Ações -->
+                            <td class="align-middle">
+                                <div class="d-flex gap-2">
+                                    <!-- Form para mudar status do pedido -->
+                                    <form asp-controller="Manager" asp-action="ChangeStatusSale" method="post">
+                                        <input type="hidden" name="SaleId" value="@item.Id" />
+                                        <select name="StatusSale" class="form-select mb-2 w-100">
+                                            @foreach (Mvc.Models.Enums.EnumStatusSale status in Enum.GetValues(typeof(Mvc.Models.Enums.EnumStatusSale)))
+                                            {
+                                                <option value="@status">
+                                                    @status
+                                                </option>
+                                            }
+                                        </select>
+                                        <button type="submit" class="btn btn-sm btn-primary">Atualizar Status Pedido</button>
+                                    </form>
+
+                                    <!-- Form para mudar status do pagamento -->
+                                    <form asp-controller="Manager" asp-action="ChangeStatusPayment" method="post">
+                                        <input type="hidden" name="SaleId" value="@item.Id" />
+                                        <select name="StatusPayment" class="form-select mb-2 w-100">
+                                            @foreach (Mvc.Models.Enums.EnumStatusPayment paymentStatus in Enum.GetValues(typeof(Mvc.Models.Enums.EnumStatusPayment)))
+                                            {
+                                                <option value="@paymentStatus">
+                                                    @paymentStatus
+                                                </option>
+                                            }
+                                        </select>
+                                        <button type="submit" class="btn btn-sm btn-secondary">Atualizar Status Pagamento</button>
+                                    </form>
+
+                                    <!-- Form para mudar tipo do pagamento -->
+                                    <form asp-controller="Manager" asp-action="ChangeTypePayment" method="post">
+                                        <input type="hidden" name="SaleId" value="@item.Id" />
+                                        <select name="TypePayment" class="form-select mb-2 w-100">
+                                            @foreach (Mvc.Models.Enums.EnumTypePayment typePayment in Enum.GetValues(typeof(Mvc.Models.Enums.EnumTypePayment)))
+                                            {
+                                                <option value="@typePayment">
+                                                    @typePayment
+                                                </option>
+                                            }
+                                        </select>
+                                        <button type="submit" class="btn btn-sm btn-secondary">Atualizar Tipo Pagamento</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

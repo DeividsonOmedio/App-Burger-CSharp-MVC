@@ -5,13 +5,19 @@ using Domain.Notifications;
 
 namespace Domain.Services
 {
-    public class IngredientsService(IIngredientsRepository ingredientsRepository) : IIngredientsService
+    public class IngredientsService(IIngredientsRepository ingredientsRepository, IMaterialRepository materialRepository) : IIngredientsService
     {
         private readonly IIngredientsRepository _ingredientsRepository = ingredientsRepository;
+        private readonly IMaterialRepository _materialRepository = materialRepository;
+
         public async Task<Notifies> Add(Ingredients ingredients)
         {
             if (ingredients == null)
                 return Notifies.Error("Ingrediente inválido");
+
+            var result =  await _ingredientsRepository.GetByProductId(ingredients.ProductId);
+            if (result.Any(e => e.MaterialId == ingredients.MaterialId))
+                return Notifies.Error("Este material já foi adicionado ao produto.");
 
             return await _ingredientsRepository.Add(ingredients);
         }
@@ -44,11 +50,32 @@ namespace Domain.Services
                 return Notifies.Error("Ingrediente inválido");
 
             var result = await _ingredientsRepository.GetById(ingredients.Id);
-
             if (result == null)
                 return Notifies.Error("Ingrediente não encontrado");
 
+            result.Amount = ingredients.Amount;
+
             return await _ingredientsRepository.Update(result);
+        }
+
+        //GetByMaterialIdByProductId
+        public async Task<Ingredients> GetByMaterialIdByProductId(int materialId, int productId)
+        {
+            return await _ingredientsRepository.GetByMaterialIdByProductId(materialId, productId);
+        }
+
+        public async Task<Dictionary<string, decimal>> GetMaterialsByProductId(int productId)
+        {
+            var ingredients = await GetByProductId(productId);
+            var materialDictionary = new Dictionary<string, decimal>();
+
+            foreach (var ingredient in ingredients)
+            {
+                var material = await _materialRepository.GetById(ingredient.MaterialId);
+                materialDictionary.Add(material.Name, ingredient.Amount);
+            }
+                
+            return materialDictionary;
         }
     }
 }

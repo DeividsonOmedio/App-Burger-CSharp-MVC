@@ -1,8 +1,54 @@
-﻿@{
+﻿@model IEnumerable<Product>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <h2 class="my-4 text-center">Burgers</h2>
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <table class="table">
+                <tr>
+                    <!-- Alinhando a imagem no centro vertical -->
+                    <td class="align-middle">
+                        <img class="card-img-top w-50" src="~/images/ham.jpeg" alt="Imagem do @item.Name">
+                    </td>
+
+                    <!-- Alinhando os detalhes no centro vertical -->
+                    <td class="align-middle w-50">
+                        <div>
+                            <h5 class="card-title text-uppercase font-weight-bold fs-5">@item.Name</h5>
+                        </div>
+                        <div>
+                            <ul class="list-inline p-2">
+                                @foreach (var item2 in item.Ingredients)
+                                {
+                                    <li class="list-inline-item badge badge-light">@item2</li>
+                                }
+                            </ul>
+                        </div>
+                        <form asp-controller="Purchase" asp-action="AddToCart" method="post">
+                            <input type="hidden" name="ProductId" value="@item.Id" />
+                            <input type="hidden" name="amount" value="1" />
+                            <button type="submit" class="btn btn-primary"> Adicionar </button>
+                        </form>
+                    </td>
+
+                    <!-- Alinhando o preço no centro vertical -->
+                    <td class="align-middle pricing">
+                        <span class="text-muted font-weight-bold border-2">R$ @item.Price.ToString("F2")</span>
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
 </div>
+
+<!-- Inclua as bibliotecas necessárias do Bootstrap -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>

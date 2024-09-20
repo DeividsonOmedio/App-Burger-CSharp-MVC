@@ -1,0 +1,40 @@
+﻿@using Mvc.Models.Enums
+@model Employee
+
+@{
+    ViewData["Title"] = "Novo funcionário";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">Adicionar Novo Funcionário</h2>
+
+    <form asp-action="Create" method="post" class="mt-4">
+        <div class="form-group">
+            <label for="Name">Nome do Funcionário</label>
+            <input type="text" class="form-control" id="Name" name="Name" placeholder="Digite o nome do funcionário" required />
+        </div>
+
+         <div class="form-group">
+            <label for="Email">Nome do Funcionário</label>
+            <input type="email" class="form-control" id="Email" name="Email" placeholder="Digite o email do funcionário" required />
+        </div>
+
+        <div class="form-group">
+            <label for="Function">Função</label>
+            <select class="form-control" id="Function" name="Function">
+                @foreach (var function in Enum.GetValues(typeof(EnumFunctionEmployee)))
+                {
+                    <option value="@function">@function</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="Password">Nome do Funcionário</label>
+            <input type="password" class="form-control" id="Password" name="Password" placeholder="Digite a senha" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Salvar Funcionário</button>
+        <a href="@Url.Action("Index", "Employee")" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

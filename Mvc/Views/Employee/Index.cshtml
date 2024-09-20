@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Employee>
+
+@{
+    ViewData["Title"] = "Funcionarios";
+}
+
+<div class="container">
+    <h2 class="my-4 text-center">Funcionários</h2>
+
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Função</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+                {
+                <tr>
+                    <!-- Alinhando a imagem no centro vertical -->
+                    <td class="align-middle w-25">
+                        <h5 class="card-title text-uppercase font-weight-bold fs-5">@item.Name</h5>
+                    </td>
+
+                    <!-- Alinhando os detalhes no centro vertical -->
+                    <td class="align-middle w-50">        
+                        <span class="text-muted font-weight-bold border-2">@item.Function</span>
+                    </td>
+
+                    <td class="align-middle">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Editar</a>
+                    </td>
+                    <td class="align-middle">
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Deletar</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

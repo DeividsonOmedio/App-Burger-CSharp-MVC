@@ -1,0 +1,27 @@
+﻿@model Sale
+
+@{
+    ViewData["Title"] = "Confirmação de Compra";
+}
+
+<div class="container mt-5">
+    <h2>Confirmação de Compra</h2>
+    <p>Obrigado pela sua compra, @Model.ClientName! Em instantes seu pedido chegará ate você</p>
+
+    <h4>Detalhes da Compra</h4>
+    <ul>
+        <li><strong>Data da Compra:</strong> @Model.SaleDate.ToString("dd/MM/yyyy")</li>
+        <li><strong>Valor Total:</strong> R$ @Model.TotalValue.ToString("F2")</li>
+        <li><strong>Forma de Pagamento:</strong> @Model.TypePayment</li>
+        <li><strong>Status da Venda:</strong> @Model.StatusSale</li>
+        <li><strong>Status do Pagamento:</strong> @Model.StatusPayment</li>
+    </ul>
+
+    <h4>Produtos Comprados</h4>
+    <ul>
+        @foreach (var product in Model.SaleProductsName)
+        {
+            <li>@product</li>
+        }
+    </ul>
+</div>

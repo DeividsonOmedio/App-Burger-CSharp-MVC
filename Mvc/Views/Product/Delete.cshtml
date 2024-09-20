@@ -1,0 +1,29 @@
+﻿@model Product
+
+@{
+    ViewData["Title"] = "Deletar Produto";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">Deletar Produto</h2>
+
+    <form asp-action="Delete" method="post" class="mt-4">
+        <div class="form-group">
+            <label for="Name">Nome do Produto</label>
+            <input type="text" class="form-control" id="Name" name="Name" placeholder="Digite o nome do produto" value="@Model.Name" disabled required />
+        </div>
+
+        <div class="form-group">
+            <label for="Price">Preço</label>
+            <input type="text" class="form-control" id="Price" name="Price" placeholder="Digite o preço do produto" value="@Model.Price" disabled required />
+        </div>
+
+        <div class="form-group">
+            <label for="Amount">Quantidade</label>
+            <input type="number" class="form-control" id="Amount" name="Amount" placeholder="Digite a quantidade disponível" disabled value="@Model.Amount" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Deletar</button>
+        <a href="@Url.Action("Index", "Product")" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

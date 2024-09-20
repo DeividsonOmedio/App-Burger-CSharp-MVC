@@ -14,18 +14,25 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Domain.Interfaces.InterfacesServices;
+using Mvc.Areas.Identity.Data;
 
 namespace Mvc.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly SignInManager<UserModel> _signInManager;
+        private readonly UserManager<UserModel> _userManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IClientService _clientService;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<UserModel> signInManager, ILogger<LoginModel> logger,
+            UserManager<UserModel> userManager, IClientService clientService)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
+            _clientService = clientService;
         }
 
         /// <summary>
@@ -60,10 +67,7 @@ namespace Mvc.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+
             [Required]
             [EmailAddress]
             public string Email { get; set; }
@@ -106,35 +110,63 @@ namespace Mvc.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-            if (ModelState.IsValid)
+            var user = await _userManager.FindByEmailAsync(Input.Email);
+            if (user == null)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                ModelState.AddModelError(string.Empty, "User Not Found.");
+                return Page();
+            }
+
+            // This doesn't count login failures towards account lockout
+            // To enable password failures to trigger account lockout, set lockoutOnFailure: truetry{
+            try
+            {
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
+
+            if (result.Succeeded)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+
+
+                // Redireciona para a página de gerenciamento se o papel for Admin
+                if (roles.Contains("Admin"))
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    return RedirectToAction("Index", "Manager");
                 }
-                if (result.RequiresTwoFactor)
+
+                var resultEmailClient = await _clientService.GetByEmail(user.Email);
+                if (resultEmailClient == null)
                 {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    return RedirectToAction("Index", "User");
                 }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
-                }
+
+                _logger.LogInformation("User logged in.");
+                return LocalRedirect(returnUrl);
+            }
+            if (result.RequiresTwoFactor)
+            {
+                return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+            }
+            if (result.IsLockedOut)
+            {
+                _logger.LogWarning("User account locked out.");
+                return RedirectToPage("./Lockout");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return Page();
             }
 
             // If we got this far, something failed, redisplay form
             return Page();
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt." + ex.Message);
+                return Page();
+            }
         }
     }
 }

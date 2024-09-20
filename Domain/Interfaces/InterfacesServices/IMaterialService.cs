@@ -10,6 +10,7 @@ namespace Domain.Interfaces.InterfacesServices
         Task<IEnumerable<Material>> GetByAmount(decimal amount);
         Task<IEnumerable<Material>> GetByMinimumQuantity(decimal minimumQuantity);
         Task<IEnumerable<Material>> GetByPurchasePrice(decimal purchasePrice);
+        Task<Material> GetByName(string name);
         Task<Notifies> Add(Material material);
         Task<Notifies> Update(Material material);
         Task<Notifies> Delete(int id);

@@ -22,6 +22,115 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Entities.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Primary")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Referency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("Addresses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            City = "Barão de Cocais",
+                            ClientId = 1,
+                            Number = 10,
+                            Primary = true,
+                            State = "MG",
+                            Street = "Rua 1",
+                            ZipCode = "35970000"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            City = "São Paulo",
+                            ClientId = 2,
+                            Number = 1,
+                            Primary = true,
+                            State = "SP",
+                            Street = "Rua 2",
+                            ZipCode = "654321544"
+                        });
+                });
+
+            modelBuilder.Entity("Domain.Entities.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Cart");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Amount = 2,
+                            ClientId = 1,
+                            ProductId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Amount = 1,
+                            ClientId = 2,
+                            ProductId = 2
+                        });
+                });
+
             modelBuilder.Entity("Domain.Entities.Client", b =>
                 {
                     b.Property<int>("Id")
@@ -62,7 +171,7 @@ namespace Infrastructure.Migrations
                             Email = "client1@example.com",
                             Name = "Client 1",
                             PhoneNumber = "12345678901",
-                            RegisteredIn = new DateTime(2024, 9, 2, 15, 50, 23, 764, DateTimeKind.Local).AddTicks(1610)
+                            RegisteredIn = new DateTime(2024, 9, 19, 15, 52, 10, 889, DateTimeKind.Local).AddTicks(2398)
                         },
                         new
                         {
@@ -71,7 +180,7 @@ namespace Infrastructure.Migrations
                             Email = "client2@example.com",
                             Name = "Client 2",
                             PhoneNumber = "09876543210",
-                            RegisteredIn = new DateTime(2024, 9, 2, 15, 50, 23, 764, DateTimeKind.Local).AddTicks(1640)
+                            RegisteredIn = new DateTime(2024, 9, 19, 15, 52, 10, 889, DateTimeKind.Local).AddTicks(2419)
                         });
                 });
 
@@ -82,6 +191,11 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("Function")
                         .HasColumnType("int");
@@ -95,11 +209,6 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("User")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
@@ -108,18 +217,18 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
+                            Email = "admin@admin.com",
                             Function = 2,
-                            Name = "Employee 1",
-                            Password = "Dev@123",
-                            User = ""
+                            Name = "Admin",
+                            Password = "Dev@123"
                         },
                         new
                         {
                             Id = 2,
+                            Email = "dev@dev.com",
                             Function = 0,
-                            Name = "Employee 2",
-                            Password = "Dev@123",
-                            User = ""
+                            Name = "Dev",
+                            Password = "Dev@123"
                         });
                 });
 
@@ -307,7 +416,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             Amount = 10,
-                            Code = new Guid("696828dd-35c8-46c0-b6cb-ca124cced891"),
+                            Code = new Guid("30e0e557-5f4a-4217-a353-3e8a47ac9880"),
                             Name = "X-Tudo",
                             Price = 20m
                         },
@@ -315,7 +424,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 2,
                             Amount = 15,
-                            Code = new Guid("ebda01e8-d04f-485c-b658-f9eaf09d4c38"),
+                            Code = new Guid("9914dc8d-3c2a-4fa6-8df3-acedb530565f"),
                             Name = "X-Egg-Bacon",
                             Price = 18m
                         });
@@ -368,7 +477,7 @@ namespace Infrastructure.Migrations
                             ClientId = 1,
                             Discount = 0m,
                             EmployeeId = 1,
-                            SaleDate = new DateTime(2024, 9, 2, 15, 50, 23, 764, DateTimeKind.Local).AddTicks(2585),
+                            SaleDate = new DateTime(2024, 9, 19, 15, 52, 10, 889, DateTimeKind.Local).AddTicks(3251),
                             StatusPayment = 1,
                             StatusSale = 4,
                             TotalValue = 400m,
@@ -380,7 +489,7 @@ namespace Infrastructure.Migrations
                             ClientId = 2,
                             Discount = 50m,
                             EmployeeId = 2,
-                            SaleDate = new DateTime(2024, 9, 2, 15, 50, 23, 764, DateTimeKind.Local).AddTicks(2601),
+                            SaleDate = new DateTime(2024, 9, 19, 15, 52, 10, 889, DateTimeKind.Local).AddTicks(3262),
                             StatusPayment = 0,
                             StatusSale = 0,
                             TotalValue = 600m,
@@ -414,29 +523,59 @@ namespace Infrastructure.Migrations
                             SaleId = 1,
                             ProductId = 1,
                             Amount = 2,
-                            Id = 0
+                            Id = 1
                         },
                         new
                         {
                             SaleId = 1,
                             ProductId = 2,
                             Amount = 1,
-                            Id = 0
+                            Id = 2
                         },
                         new
                         {
                             SaleId = 2,
                             ProductId = 1,
                             Amount = 1,
-                            Id = 0
+                            Id = 3
                         },
                         new
                         {
                             SaleId = 2,
                             ProductId = 2,
                             Amount = 2,
-                            Id = 0
+                            Id = 4
                         });
+                });
+
+            modelBuilder.Entity("Domain.Entities.Address", b =>
+                {
+                    b.HasOne("Domain.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Cart", b =>
+                {
+                    b.HasOne("Domain.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Domain.Entities.Ingredients", b =>

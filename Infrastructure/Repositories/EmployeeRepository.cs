@@ -13,9 +13,9 @@ namespace Infrastructure.Repositories
             return _dbSet.Where(e => e.Function == function).ToListAsync();
         }
 
-        public Task<Employee> GetByUser(string user)
+        public Task<Employee> GetByEmail(string email)
         {
-            return _dbSet.FirstOrDefaultAsync(e => e.User == user);
+            return _dbSet.FirstOrDefaultAsync(e => e.Email == email);
         }
 
     }

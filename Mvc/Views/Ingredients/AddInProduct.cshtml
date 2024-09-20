@@ -1,0 +1,66 @@
+﻿@model Ingredients
+
+@{
+    ViewData["Title"] = "Adicionar Ingrediente";
+}
+
+@if (Model.Materials.Count > 0)
+{
+<h4>Ingredientes no produto: @Model.NameProduct</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Material</th>
+            <th>Quantidade</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var material in Model.MaterialsProducts)
+            {
+        <tr>
+            <td>@material.Key</td>
+            <td>@material.Value</td>
+            <td>
+                <form asp-action="UpdateAmount" method="post">
+                    <input type="hidden" name="productId" value="@Model.ProductId" />
+                    <input type="hidden" name="name" value="@material.Key" />
+                    <input type="number" name="amount" value="@material.Value" min="1" required />
+                    <button type="submit" class="btn btn-primary">Alterar Quantidade</button>
+                </form>
+            </td>
+            <td>
+                <form asp-action="DeleteInProduct" method="post">
+                    <input type="hidden" name="productId" value="@Model.ProductId" />
+                    <input type="hidden" name="name" value="@material.Key" />
+                    <button type="submit" class="btn btn-danger">Retirar</button>
+                </form>
+            </td>
+        </tr>
+            }
+    </tbody>
+</table>
+}
+
+<h3>Adicionar</h3>
+<form asp-action="AddIngredients" method="post">
+    <input type="hidden" asp-for="ProductId" />
+
+    <div class="form-group">
+        <label for="MaterialId">Material</label>
+        <select name="MaterialId" class="form-control" required>
+            <option value="">Selecione um material</option>
+            @foreach (var material in Model.Materials)
+            {
+            <option value="@material.Id">@material.Name</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="Amount">Quantidade</label>
+        <input type="number" name="Amount" class="form-control" min="1" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Adicionar Ingrediente</button>
+</form>

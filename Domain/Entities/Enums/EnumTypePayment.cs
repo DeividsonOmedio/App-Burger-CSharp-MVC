@@ -2,9 +2,9 @@ namespace Domain.Entities.Enums
 {
     public enum EnumTypePayment
     {
-        money = 0,
+        dinheiro = 0,
         pix = 1,
-        debit = 2,
-        credit = 3
+        debito = 2,
+        credito = 3
     }
 }

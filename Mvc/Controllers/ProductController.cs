@@ -27,6 +27,8 @@ namespace Mvc.Controllers
                     Name = product.Name,
                     Price = product.Price,
                     Amount = product.Amount,
+                    Category = (Models.Enums.EnumCategoryProducts?)product.Category,
+                    Image = product.Image,
                     Ingredients = new List<string>()
                 };
 
@@ -78,6 +80,8 @@ namespace Mvc.Controllers
                     {
                         Name = productModel.Name,
                         Price = productModel.Price,
+                        Category = (Domain.Entities.Enums.EnumCategoryProducts)productModel.Category,
+                        Image = productModel.Image,
                         Amount = productModel.Amount
                     };
 
@@ -104,6 +108,8 @@ namespace Mvc.Controllers
                 Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
+                Category = (Models.Enums.EnumCategoryProducts)product.Category,
+                Image = product.Image,
                 Amount = product.Amount
             };
             return View(productModel);
@@ -130,6 +136,8 @@ namespace Mvc.Controllers
                     {
                         Name = productModel.Name,
                         Price = productModel.Price,
+                        Category = (Domain.Entities.Enums.EnumCategoryProducts)productModel.Category,
+                        Image = productModel.Image,
                         Amount = productModel.Amount
                     };
 
@@ -153,6 +161,8 @@ namespace Mvc.Controllers
                 Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
+                Category = (Models.Enums.EnumCategoryProducts)product.Category,
+                Image = product.Image,
                 Amount = product.Amount
             };
             return View(productModel);

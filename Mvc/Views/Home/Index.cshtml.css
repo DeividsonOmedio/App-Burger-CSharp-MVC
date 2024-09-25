@@ -1,3 +1,69 @@
-﻿.pricing {
-    width: 100px;
+﻿body {
+    background-color: #2b241c;
+    color: #f5f5f5;
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    background-color: #2b241c;
+    color: #f5f5f5;
+}
+
+.btn-info {
+    background-color: #f8bc48;
+    color: #2b241c;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin: 5px;
+}
+
+h2, h3, h5 {
+    color: #f8bc48;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.table {
+    background-color: #3a3126;
+    color: #f5f5f5;
+    border: none;
+}
+
+    .table td, .table th {
+        border: none;
+    }
+
+    .table img {
+        border-radius: 8px;
+        max-width: 100%;
+    }
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.badge {
+    background-color: #f8bc48;
+    color: #2b241c;
+    margin: 3px;
+}
+
+.btn-primary {
+    background-color: #f8bc48;
+    color: #2b241c;
+    border-radius: 20px;
+    border: none;
+    padding: 10px 20px;
+}
+
+.pricing span {
+    font-size: 1.2rem;
+    color: #f8bc48;
+}
+
+footer {
+    background-color: #2b241c;
+    color: #f5f5f5;
 }

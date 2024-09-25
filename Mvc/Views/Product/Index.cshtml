@@ -7,17 +7,22 @@
 <div class="container">
     <h2 class="my-4 text-center">Produtos</h2>
 
+    <a href="#food" class="btn btn-info">Hamburguer</a>
+    <a href="#drinks" class="btn btn-info">Bebidas</a>
+    <a href="#dessert" class="btn btn-info">Sobremessas</a>
+
     <div class="row">
+        <h3>Hamburguer</h3>
         @foreach (var item in Model)
         {
-            <table class="table">
+            @if (item.Category == Mvc.Models.Enums.EnumCategoryProducts.Food)
+            {
+            <table class="table" id="food">
                 <tr>
-                    <!-- Alinhando a imagem no centro vertical -->
                     <td class="align-middle">
-                        <img class="card-img-top w-50" src="~/images/ham.jpeg" alt="Imagem do @item.Name">
+                        <img class="card-img-top w-50" src="@item.Image" alt="Imagem do @item.Name">
                     </td>
 
-                    <!-- Alinhando os detalhes no centro vertical -->
                     <td class="align-middle w-50">
                         <div>
                             <a asp-controller="Ingredients" asp-action="AddIngredients" asp-route-id="@item.Id" class="btn btn-link text-decoration-none">
@@ -35,7 +40,6 @@
                       
                     </td>
 
-                    <!-- Alinhando o preço no centro vertical -->
                     <td class="align-middle pricing">
                         <span class="text-muted font-weight-bold border-2">R$ @item.Price.ToString("F2")</span>
                     </td>
@@ -48,6 +52,97 @@
                     </td>
                 </tr>
             </table>
+            }
+        }
+
+        <h3>Bebidas</h3>
+        @foreach (var item in Model)
+        {
+            @if (item.Category == Mvc.Models.Enums.EnumCategoryProducts.Drink)
+            {
+                <table class="table" id="drinks">
+                    <tr>
+                        <td class="align-middle">
+                            <img class="card-img-top w-50" src="@item.Image" alt="Imagem do @item.Name">
+                        </td>
+
+                        <td class="align-middle w-50">
+                            <div>
+                                <a asp-controller="Ingredients" asp-action="AddIngredients" asp-route-id="@item.Id" class="btn btn-link text-decoration-none">
+                                    <h5 class="card-title text-uppercase font-weight-bold fs-5">@item.Name</h5>
+                                </a>
+                            </div>
+                            <div>
+                                <ul class="list-inline p-2">
+                                    @foreach (var item2 in item.Ingredients)
+                                    {
+                                        <li class="list-inline-item badge badge-dark text-dark" data-tooltip="Clique para editar a lista de abaixo">@item2</li>
+                                    }
+                                </ul>
+                            </div>
+
+                        </td>
+
+                        <td class="align-middle pricing">
+                            <span class="text-muted font-weight-bold border-2">R$ @item.Price.ToString("F2")</span>
+                        </td>
+
+                        <td class="align-middle">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Editar</a>
+                        </td>
+                        <td class="align-middle">
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Deletar</a>
+                        </td>
+                    </tr>
+                </table>
+            }
+        }
+
+        <h3>Sobremessas</h3>
+        @foreach (var item in Model)
+        {
+            @if (item.Category == Mvc.Models.Enums.EnumCategoryProducts.Dessert)
+            {
+                <table class="table" id="dessert">
+                    <tr>
+                        <td class="align-middle">
+                            <img class="card-img-top w-50" src="@item.Image" alt="Imagem do @item.Name">
+                        </td>
+
+                        <td class="align-middle w-50">
+                            <div>
+                                <a asp-controller="Ingredients" asp-action="AddIngredients" asp-route-id="@item.Id" class="btn btn-link text-decoration-none">
+                                    <h5 class="card-title text-uppercase font-weight-bold fs-5">@item.Name</h5>
+                                </a>
+                            </div>
+                            <div>
+                                <ul class="list-inline p-2">
+                                    @foreach (var item2 in item.Ingredients)
+                                    {
+                                        <li class="list-inline-item badge badge-light">@item2</li>
+                                    }
+                                </ul>
+                            </div>
+                            <form asp-controller="Purchase" asp-action="AddToCart" method="post">
+                                <input type="hidden" name="ProductId" value="@item.Id" />
+                                <input type="hidden" name="amount" value="1" />
+                                <button type="submit" class="btn btn-primary"> Adicionar </button>
+                            </form>
+                        </td>
+
+                        <td class="align-middle pricing">
+                            <span class="text-muted font-weight-bold border-2">R$ @item.Price.ToString("F2")</span>
+                        </td>
+
+                        <td class="align-middle">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Editar</a>
+                        </td>
+                        <td class="align-middle">
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Deletar</a>
+                        </td>
+                    </tr>
+                </table>
+            }
         }
     </div>
 </div>

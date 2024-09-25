@@ -10,7 +10,7 @@
 
     <!-- Resumo do Carrinho -->
     <h4>Itens do Carrinho</h4>
-    <table class="table table-bordered">
+    <table class="table table-bordered text-light my-4">
         <thead>
             <tr>
                 <th>Produto</th>
@@ -35,11 +35,11 @@
     <h4>Valor Total: <strong>R$ @Model.CartItems.Sum(i => i.TotalPrice).ToString("F2")</strong></h4>
 
     <!-- Seleção de Endereço -->
-    <h4>Endereço de Entrega</h4>
+    <h4 class="my-4">Endereço de Entrega</h4>
     <form asp-action="ConfirmCheckout" method="post">
         <div class="form-group">
             <label for="address">Selecione um endereço cadastrado:</label>
-            <select class="form-control" id="address" name="SelectedAddressId">
+            <select class="form-control my-3" id="address" name="SelectedAddressId">
                 @foreach (var address in Model.Addresses)
                 {
                     @if(address.Primary == true)
@@ -105,15 +105,13 @@
             
         </div>
 
-
-       
-
         <!-- Opções de Pagamento -->
-        <h4>Forma de Pagamento</h4>
+        <h4 class="my-4">Forma de Pagamento</h4>
         <div class="form-group">
             <label>Selecione a forma de pagamento:</label>
             <div class="form-check">
-                <select name="PaymentMethod">
+                <select name="PaymentMethod" required>
+                    <option value="" disabled selected>--Selecione a forma de pagamento--</option>
                     @foreach (var item in Enum.GetValues(typeof(EnumTypePayment)))
                     {
                         <option value="@item">@item</option>
@@ -124,6 +122,6 @@
         </div>
 
         <!-- Botão de Confirmação -->
-        <button type="submit" class="btn btn-primary mt-3">Confirmar Compra</button>
+        <button type="submit" class="btn btn-primary my-3">Confirmar Compra</button>
     </form>
 </div>

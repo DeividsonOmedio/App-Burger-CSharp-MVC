@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Domain.Entities.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
@@ -13,5 +14,10 @@ namespace Domain.Entities
 
         [Required]
         public decimal Price { get; set; }
+
+        public EnumCategoryProducts Category { get; set; }
+        
+        public string Image { get; set; }
+
     }
 }

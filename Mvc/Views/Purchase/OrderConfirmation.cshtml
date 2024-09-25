@@ -19,9 +19,9 @@
 
     <h4>Produtos Comprados</h4>
     <ul>
-        @foreach (var product in Model.SaleProductsName)
+        @foreach (var product in Model.SaleProductsQuantity)
         {
-            <li>@product</li>
+            <li>@product.Value : @product.Key</li>
         }
     </ul>
 </div>

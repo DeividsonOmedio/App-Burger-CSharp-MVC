@@ -269,6 +269,7 @@ namespace Mvc.Controllers
             {
                 var productName = await _productService.GetById(product.ProductId);
                 orderConfirmationViewModel.SaleProductsName.Add(productName.Name);
+                orderConfirmationViewModel.SaleProductsQuantity.Add(productName.Name, product.Amount);
             }
 
             return View(orderConfirmationViewModel);

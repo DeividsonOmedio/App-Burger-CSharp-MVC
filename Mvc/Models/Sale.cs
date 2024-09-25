@@ -29,5 +29,7 @@ namespace Mvc.Models
 
         public List<string> SaleProductsName { get; set; } = new List<string>();
 
+        public Dictionary<string, int>? SaleProductsQuantity { get; set; } = new Dictionary<string, int>();
+
     }
 }

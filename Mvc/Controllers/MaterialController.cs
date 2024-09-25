@@ -61,6 +61,37 @@ namespace Mvc.Controllers
             return View(material);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateInIngredients(Models.Material material)
+        {
+            //pegar o id do produto passado por parametro
+            int productId = Convert.ToInt32(RouteData.Values["id"]);
+            try
+            {
+                material.PurchasePrice = Convert.ToDecimal(material.PurchasePrice);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("Preço", "O campo preço deve ser um número decimal");
+            }
+
+            if (ModelState.IsValid)
+            {
+                var materialDomain = new Domain.Entities.Material
+                {
+                    Name = material.Name,
+                    PurchasePrice = material.PurchasePrice,
+                    MinimumQuantity = material.MinimumQuantity,
+                    Amount = material.Amount
+                };
+
+                await _materialService.Add(materialDomain);
+                return RedirectToAction("AddIngredients", "Ingredients", new { productId = productId });
+            }
+
+            return RedirectToAction("AddIngredients", "Ingredients", new { productId = productId });
+        }
+
         public async Task<IActionResult> Edit(int id)
         {
             var material = await _materialService.GetById(id);

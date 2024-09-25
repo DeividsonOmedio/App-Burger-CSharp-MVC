@@ -58,8 +58,9 @@ namespace Infrastructure.Configuration
 
             // Seed data para Products
             modelBuilder.Entity<Product>().HasData(
-                new Product { Id = 1, Name = "X-Tudo", Code = Guid.NewGuid(), Amount = 10, Price = 20 },
-                new Product { Id = 2, Name = "X-Egg-Bacon", Code = Guid.NewGuid(), Amount = 15, Price = 18 }
+                new Product { Id = 1, Name = "X-Tudo", Code = Guid.NewGuid(), Amount = 10, Price = 20, Category = EnumCategoryProducts.Food, Image = "https://s3-sa-east-1.amazonaws.com/deliveryon-uploads/products/traillerdoserginho/76_55afa529b0ae0.jpg" },
+                new Product { Id = 2, Name = "X-Egg-Bacon", Code = Guid.NewGuid(), Amount = 15, Price = 18, Category = EnumCategoryProducts.Food, Image = "https://th.bing.com/th/id/OIP.EN4Iy0c2I5nYGZcORBKOsQHaHa?rs=1&pid=ImgDetMain" },
+                new Product { Id = 3, Name = "Coca Cola", Code = Guid.NewGuid(), Amount = 30, Price = 5, Category = EnumCategoryProducts.Drink, Image = "https://www.lojasliberty.com/images/products/941593087213_s.jpg" }
             );
 
             // Seed data para Ingredients

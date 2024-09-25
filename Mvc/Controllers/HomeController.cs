@@ -42,6 +42,8 @@ namespace Mvc.Controllers
                     Name = product.Name,
                     Price = product.Price,
                     Amount = product.Amount,
+                    Category = (Models.Enums.EnumCategoryProducts?)product.Category,
+                    Image = product.Image,
                     Ingredients = new List<string>()
                 };
 
@@ -58,32 +60,6 @@ namespace Mvc.Controllers
 
             return View(listProductViewModel);
         }
-
-        //receber o id do produto e quantidade
-        //public async Task<IActionResult> AddToCart(int id, int amount)
-        //{
-        //    Dictionary<int, int> Cart = new Dictionary<int, int>();// id do produto e quantidade
-
-        //    var product = await _productService.GetById(id);
-
-        //    //verificar se o produto existe
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    //verificar se a quantidade é maior que zero
-        //    if (amount <= 0)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    //adicionar o produto ao carrinho
-        //    Cart.Add(product.Id, amount);
-
-        //    return RedirectToAction("Index");
-        //}
-
 
         public IActionResult Privacy()
         {

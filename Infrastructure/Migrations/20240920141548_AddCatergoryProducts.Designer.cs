@@ -4,6 +4,7 @@ using Infrastructure.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ContextBase))]
-    partial class ContextBaseModelSnapshot : ModelSnapshot
+    [Migration("20240920141548_AddCatergoryProducts")]
+    partial class AddCatergoryProducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,7 +174,7 @@ namespace Infrastructure.Migrations
                             Email = "client1@example.com",
                             Name = "Client 1",
                             PhoneNumber = "12345678901",
-                            RegisteredIn = new DateTime(2024, 9, 20, 11, 43, 10, 941, DateTimeKind.Local).AddTicks(9334)
+                            RegisteredIn = new DateTime(2024, 9, 20, 11, 15, 45, 831, DateTimeKind.Local).AddTicks(8411)
                         },
                         new
                         {
@@ -180,7 +183,7 @@ namespace Infrastructure.Migrations
                             Email = "client2@example.com",
                             Name = "Client 2",
                             PhoneNumber = "09876543210",
-                            RegisteredIn = new DateTime(2024, 9, 20, 11, 43, 10, 941, DateTimeKind.Local).AddTicks(9361)
+                            RegisteredIn = new DateTime(2024, 9, 20, 11, 15, 45, 831, DateTimeKind.Local).AddTicks(8439)
                         });
                 });
 
@@ -396,15 +399,11 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int>("Category")
-                        .HasColumnType("int");
+                    b.Property<string>("Categoria")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("Code")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -423,9 +422,8 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             Amount = 10,
-                            Category = 0,
-                            Code = new Guid("b6ee7bac-c94a-4206-b565-dfc23e9079e2"),
-                            Image = "https://s3-sa-east-1.amazonaws.com/deliveryon-uploads/products/traillerdoserginho/76_55afa529b0ae0.jpg",
+                            Categoria = "",
+                            Code = new Guid("5a07de7d-92ee-4050-b38e-928ac9786767"),
                             Name = "X-Tudo",
                             Price = 20m
                         },
@@ -433,21 +431,10 @@ namespace Infrastructure.Migrations
                         {
                             Id = 2,
                             Amount = 15,
-                            Category = 0,
-                            Code = new Guid("3644a333-6de2-4fd6-8abf-6926ac341fb8"),
-                            Image = "https://th.bing.com/th/id/OIP.EN4Iy0c2I5nYGZcORBKOsQHaHa?rs=1&pid=ImgDetMain",
+                            Categoria = "",
+                            Code = new Guid("f889d781-d5fa-408c-bbe5-b1b362dbdb69"),
                             Name = "X-Egg-Bacon",
                             Price = 18m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Amount = 30,
-                            Category = 1,
-                            Code = new Guid("0bc1f2c9-fd31-4e4e-9821-62ddb619dd95"),
-                            Image = "https://www.lojasliberty.com/images/products/941593087213_s.jpg",
-                            Name = "Coca Cola",
-                            Price = 5m
                         });
                 });
 
@@ -498,7 +485,7 @@ namespace Infrastructure.Migrations
                             ClientId = 1,
                             Discount = 0m,
                             EmployeeId = 1,
-                            SaleDate = new DateTime(2024, 9, 20, 11, 43, 10, 942, DateTimeKind.Local).AddTicks(57),
+                            SaleDate = new DateTime(2024, 9, 20, 11, 15, 45, 831, DateTimeKind.Local).AddTicks(9307),
                             StatusPayment = 1,
                             StatusSale = 4,
                             TotalValue = 400m,
@@ -510,7 +497,7 @@ namespace Infrastructure.Migrations
                             ClientId = 2,
                             Discount = 50m,
                             EmployeeId = 2,
-                            SaleDate = new DateTime(2024, 9, 20, 11, 43, 10, 942, DateTimeKind.Local).AddTicks(66),
+                            SaleDate = new DateTime(2024, 9, 20, 11, 15, 45, 831, DateTimeKind.Local).AddTicks(9324),
                             StatusPayment = 0,
                             StatusSale = 0,
                             TotalValue = 600m,
